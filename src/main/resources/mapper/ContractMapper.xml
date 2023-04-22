@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cattle.house.mapper.ContractMapper">
+
+    <!--保存合同-->
+    <select id="saveContract" parameterType="com.cattle.house.bean.ContractBean">
+        insert into house_contract(con_id, con_no, con_start_date, con_end_date, con_year, con_house_type, con_house_no,
+                                   con_month_money, con_deposit_money, con_paid_money, con_pay_money, con_total_money,
+                                   con_key_num, con_w_price, con_e_price, con_g_price,
+                                   con_state)
+            value (#{con_id}, #{con_no}, #{con_start_date}, #{con_end_date}, #{con_year}, #{con_house_type}, #{con_house_no},
+            #{con_month_money}, #{con_deposit_money}, #{con_paid_money}, #{con_pay_money}, #{con_total_money}, #{con_key_num},
+            #{con_w_price}, #{con_e_price}, #{con_g_price}, #{con_state})
+    </select>
+
+    <!--删除合同-->
+    <select id="deleteContract" parameterType="com.cattle.house.bean.ContractBean">
+        delete
+        from house_contract
+        where con_id = #{con_id}
+    </select>
+
+    <!--通过合同ID查询合同信息-->
+    <select id="getContractByContractId" parameterType="java.lang.String"
+            resultType="com.cattle.house.bean.ContractBean">
+        select *
+        from house_contract
+        where con_id = #{con_id}
+    </select>
+
+    <!--修改合同-->
+    <select id="updateContract" parameterType="com.cattle.house.bean.ContractBean">
+        update house_contract
+        set con_start_date    = #{con_start_date},
+            con_end_date      = #{con_end_date},
+            con_year          = #{con_year},
+            con_house_type    = #{con_house_type},
+            con_house_no      = #{con_house_no},
+            con_month_money   = #{con_month_money},
+            con_deposit_money = #{con_deposit_money},
+            con_paid_money    = #{con_paid_money},
+            con_pay_money     = #{con_pay_money},
+            con_total_money   = #{con_total_money},
+            con_key_num       = #{con_key_num},
+            con_w_price       = #{con_w_price},
+            con_e_price       = #{con_e_price},
+            con_g_price       = #{con_g_price},
+            con_state         = #{con_state}
+        where con_id = #{con_id}
+    </select>
+
+    <!--查询合同列表-->
+    <select id="getContractList" parameterType="com.cattle.house.bean.ContractBean"
+            resultType="com.cattle.house.bean.ContractBean">
+        select * from house_contract
+    </select>
+
+</mapper>
