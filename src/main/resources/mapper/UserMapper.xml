@@ -2,8 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cattle.house.mapper.UserMapper">
 
-    <select id="getUserBean" parameterType="String" resultType="com.cattle.house.bean.UserBean">
-        SELECT * FROM user WHERE name = #{name} AND password = #{password}
+    <!--用户登录-->
+    <select id="getUserBean" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
+        select *
+        from house_user
+        where (user_no = #{user_no} or user_phone = #{user_phone})
+          and user_password = #{user_password}
+    </select>
+
+    <!--保存用户-->
+    <select id="saveUser" parameterType="com.cattle.house.bean.UserBean">
+        insert into house_user(user_id, user_no, user_name, user_phone, user_password, user_type, user_house_no,user_state)
+            value (#{user_id}, #{user_no}, #{user_name}, #{user_phone}, #{user_password}, #{user_type}, #{user_house_no}, #{user_state})
+    </select>
+
+    <!--删除用户-->
+    <select id="deleteUser" parameterType="com.cattle.house.bean.UserBean">
+        delete
+        from house_user
+        where user_id = #{user_id}
+    </select>
+
+    <!--通过用户ID查询用户信息-->
+    <select id="getUserByUserId" parameterType="java.lang.String" resultType="com.cattle.house.bean.UserBean">
+        select *
+        from house_user
+        where user_id = #{user_id}
+    </select>
+
+    <!--修改用户-->
+    <select id="updateUser" parameterType="com.cattle.house.bean.UserBean">
+        update house_user
+        set user_no       = #{user_no},
+            user_name     = #{user_name},
+            user_phone    = #{user_phone},
+            user_password = #{user_password},
+            user_type     = #{user_type},
+            user_house_no = #{user_house_no},
+            user_state    = #{user_state}
+        where user_id = #{user_id}
     </select>
 
 </mapper>

@@ -9,3 +9,5 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.cattle.house.bean
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
