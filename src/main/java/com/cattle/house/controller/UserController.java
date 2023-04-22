@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * 用户
  *
@@ -100,6 +102,25 @@ public class UserController {
         try {
             userService.deleteUser(user);
             return Result.success("操作成功！");
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 查询用户列表
+     * @param user user
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/4/22
+     */
+    @ResponseBody
+    @RequestMapping("/getUserList")
+    public String getUserList(UserBean user) {
+        try {
+            List<UserBean> userBeanList = userService.getUserList(user);
+            return Result.success("操作成功！", userBeanList);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

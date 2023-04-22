@@ -29,7 +29,7 @@ public class ContractServiceImpl implements ContractService {
 
     private ContractMapper contractMapper;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveContract(ContractBean contractBean) throws Exception {
         try {
@@ -43,7 +43,7 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteContract(ContractBean contractBean) throws Exception {
         try {
@@ -75,7 +75,7 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateContract(ContractBean contractBean) throws Exception {
         try {

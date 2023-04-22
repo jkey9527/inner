@@ -1,5 +1,6 @@
 package com.cattle.house.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cattle.house.bean.UserBean;
@@ -11,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 用户服务类
@@ -36,20 +39,28 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserBean(userBean);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveUser(UserBean userBean) throws Exception {
         try {
+            List<UserBean> userList = getUserList(new UserBean());
+            if (CollUtil.isNotEmpty(userList)) {
+                List<UserBean> existsUserList = userList.stream().filter(v -> ObjectUtil.equal(v.getUser_no(), userBean.getUser_no())
+                        || ObjectUtil.equal(v.getUser_phone(), userBean.getUser_phone())).toList();
+                if (CollUtil.isNotEmpty(existsUserList)) {
+                    throw new Exception("用户已存在！");
+                }
+            }
             checkUserInfo(userBean);
             userBean.setUser_id(UuIdUtil.getUUID());
             userMapper.saveUser(userBean);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteUser(UserBean userBean) throws Exception {
         try {
@@ -58,11 +69,11 @@ public class UserServiceImpl implements UserService {
                 throw new Exception("参数{userId}异常");
             }
             UserBean user = getUserByUserId(userId);
-            if(ObjectUtil.isNull(user)){
+            if (ObjectUtil.isNull(user)) {
                 throw new Exception("删除失败，未查询到用户信息");
             }
             userMapper.deleteUser(userBean);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
         }
@@ -75,13 +86,13 @@ public class UserServiceImpl implements UserService {
                 throw new Exception("参数{userId}异常");
             }
             return userMapper.getUserByUserId(userId);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUser(UserBean userBean) throws Exception {
         try {
@@ -91,11 +102,29 @@ public class UserServiceImpl implements UserService {
             }
             checkUserInfo(userBean);
             UserBean user = getUserByUserId(userId);
-            if(ObjectUtil.isNull(user)){
+            if (ObjectUtil.isNull(user)) {
                 throw new Exception("修改失败，未查询到用户信息");
             }
+            List<UserBean> userList = getUserList(new UserBean());
+            if (CollUtil.isNotEmpty(userList)) {
+                List<UserBean> existsUserList = userList.stream().filter(v -> (ObjectUtil.equal(v.getUser_no(), userBean.getUser_no())
+                        || ObjectUtil.equal(v.getUser_phone(), userBean.getUser_phone())) && !ObjectUtil.equal(v.getUser_id(), userBean.getUser_id())).toList();
+                if (CollUtil.isNotEmpty(existsUserList)) {
+                    throw new Exception("用户已存在！");
+                }
+            }
             userMapper.updateUser(userBean);
-        }catch (Exception e){
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<UserBean> getUserList(UserBean user) throws Exception {
+        try {
+            return userMapper.getUserList(user);
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
         }
@@ -103,6 +132,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 检查用户信息
+     *
      * @param userBean userBean
      * @return void
      * @author niujie
@@ -112,10 +142,10 @@ public class UserServiceImpl implements UserService {
         String userNo = userBean.getUser_no();
         String userPhone = userBean.getUser_phone();
         String userPassword = userBean.getUser_password();
-        if(StrUtil.isBlank(userNo) && StrUtil.isBlank(userPhone)){
+        if (StrUtil.isBlank(userNo) && StrUtil.isBlank(userPhone)) {
             throw new Exception("用户名/手机号不能同时不能为空！");
         }
-        if(StrUtil.isBlank(userPassword)){
+        if (StrUtil.isBlank(userPassword)) {
             throw new Exception("密码不能为空！");
         }
     }

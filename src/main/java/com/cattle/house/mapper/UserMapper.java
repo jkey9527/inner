@@ -3,6 +3,8 @@ package com.cattle.house.mapper;
 import com.cattle.house.bean.UserBean;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 用户映射类
  *
@@ -56,4 +58,13 @@ public interface UserMapper {
      * @date 2023/4/22
      */
     void updateUser(UserBean userBean);
+
+    /**
+     * 查询用户列表信息
+     * @param user user
+     * @return java.util.List<com.cattle.house.bean.UserBean>
+     * @author niujie
+     * @date 2023/4/22
+     */
+    List<UserBean> getUserList(UserBean user);
 }
