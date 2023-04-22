@@ -42,12 +42,32 @@ public class UserBean {
     private Integer user_type;
 
     /**
-     * 房间号
+     * 合同编号
      */
-    private Integer user_house_no;
+    private String user_contract_no;
 
     /**
      * 用户状态：0-停用
      */
     private Integer user_state;
+
+    /**
+     * 身份证号
+     */
+    private String user_id_card;
+
+    /**
+     * 车牌号
+     */
+    private String user_car_no;
+
+    /**
+     * 备注
+     */
+    private String user_notes;
+
+    /**
+     * 密码锁编号
+     */
+    private Integer user_key_no;
 }

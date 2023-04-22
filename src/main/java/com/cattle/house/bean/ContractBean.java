@@ -101,4 +101,9 @@ public class ContractBean {
      * 合同状态
      */
     private Integer con_state;
+
+    /**
+     * 备注
+     */
+    private String con_notes;
 }

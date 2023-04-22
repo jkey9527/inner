@@ -12,8 +12,10 @@
 
     <!--保存用户-->
     <insert id="saveUser" parameterType="com.cattle.house.bean.UserBean">
-        insert into house_user(user_id, user_no, user_name, user_phone, user_password, user_type, user_house_no,user_state)
-            value (#{user_id}, #{user_no}, #{user_name}, #{user_phone}, #{user_password}, #{user_type}, #{user_house_no}, #{user_state})
+        insert into house_user(user_id, user_no, user_name, user_phone, user_password, user_type, user_contract_no,
+                               user_state, user_id_card, user_car_no, user_notes, user_key_no)
+            value (#{user_id}, #{user_no}, #{user_name}, #{user_phone}, #{user_password}, #{user_type}, #{user_contract_no}, #{user_state},
+            #{user_id_card}, #{user_car_no}, #{user_notes}, #{user_key_no})
     </insert>
 
     <!--删除用户-->
@@ -33,19 +35,24 @@
     <!--修改用户-->
     <update id="updateUser" parameterType="com.cattle.house.bean.UserBean">
         update house_user
-        set user_no       = #{user_no},
-            user_name     = #{user_name},
-            user_phone    = #{user_phone},
-            user_password = #{user_password},
-            user_type     = #{user_type},
-            user_house_no = #{user_house_no},
-            user_state    = #{user_state}
+        set user_no          = #{user_no},
+            user_name        = #{user_name},
+            user_phone       = #{user_phone},
+            user_password    = #{user_password},
+            user_type        = #{user_type},
+            user_contract_no = #{user_contract_no},
+            user_state       = #{user_state},
+            user_id_card     = #{user_id_card},
+            user_car_no      = #{user_car_no},
+            user_notes       = #{user_notes},
+            user_key_no      = #{user_key_no}
         where user_id = #{user_id}
     </update>
 
     <!--查询用户列表-->
     <select id="getUserList" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
-        select * from house_user
+        select *
+        from house_user
     </select>
 
 </mapper>

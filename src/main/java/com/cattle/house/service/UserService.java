@@ -5,7 +5,7 @@ import com.cattle.house.bean.UserBean;
 import java.util.List;
 
 /**
- * 用户服务类
+ * 用户服务接口
  *
  * @author niujie
  * @date 2023/4/21 22:38

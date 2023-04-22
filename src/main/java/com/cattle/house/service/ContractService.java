@@ -5,7 +5,7 @@ import com.cattle.house.bean.ContractBean;
 import java.util.List;
 
 /**
- * 合同服务类
+ * 合同服务接口
  *
  * @author niujie
  * @date 2023/4/21 22:38

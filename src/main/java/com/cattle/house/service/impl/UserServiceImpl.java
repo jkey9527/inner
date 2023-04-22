@@ -3,7 +3,9 @@ package com.cattle.house.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.cattle.house.bean.ContractBean;
 import com.cattle.house.bean.UserBean;
+import com.cattle.house.mapper.ContractMapper;
 import com.cattle.house.mapper.UserMapper;
 import com.cattle.house.service.UserService;
 import com.cattle.house.util.UuIdUtil;
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     private UserMapper userMapper;
+
+    private ContractMapper contractMapper;
 
     @Override
     public UserBean loginIn(UserBean userBean) throws Exception {
@@ -52,6 +56,12 @@ public class UserServiceImpl implements UserService {
                 }
             }
             checkUserInfo(userBean);
+            ContractBean contractBean = new ContractBean();
+            contractBean.setCon_no(userBean.getUser_contract_no());
+            List<ContractBean> contractList = contractMapper.getContractList(contractBean);
+            if(CollUtil.isEmpty(contractList)){
+                throw new Exception("合同不存在！");
+            }
             userBean.setUser_id(UuIdUtil.getUUID());
             userMapper.saveUser(userBean);
         } catch (Exception e) {
@@ -112,6 +122,12 @@ public class UserServiceImpl implements UserService {
                 if (CollUtil.isNotEmpty(existsUserList)) {
                     throw new Exception("用户已存在！");
                 }
+            }
+            ContractBean contractBean = new ContractBean();
+            contractBean.setCon_no(userBean.getUser_contract_no());
+            List<ContractBean> contractList = contractMapper.getContractList(contractBean);
+            if(CollUtil.isEmpty(contractList)){
+                throw new Exception("合同不存在！");
             }
             userMapper.updateUser(userBean);
         } catch (Exception e) {

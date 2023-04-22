@@ -7,10 +7,10 @@
         insert into house_contract(con_id, con_no, con_start_date, con_end_date, con_year, con_house_type, con_house_no,
                                    con_month_money, con_deposit_money, con_paid_money, con_pay_money, con_total_money,
                                    con_key_num, con_w_price, con_e_price, con_g_price,
-                                   con_state)
+                                   con_state, con_notes)
             value (#{con_id}, #{con_no}, #{con_start_date}, #{con_end_date}, #{con_year}, #{con_house_type}, #{con_house_no},
             #{con_month_money}, #{con_deposit_money}, #{con_paid_money}, #{con_pay_money}, #{con_total_money}, #{con_key_num},
-            #{con_w_price}, #{con_e_price}, #{con_g_price}, #{con_state})
+            #{con_w_price}, #{con_e_price}, #{con_g_price}, #{con_state}, #{con_notes})
     </insert>
 
     <!--删除合同-->
@@ -45,7 +45,8 @@
             con_w_price       = #{con_w_price},
             con_e_price       = #{con_e_price},
             con_g_price       = #{con_g_price},
-            con_state         = #{con_state}
+            con_state         = #{con_state},
+            con_notes         = #{con_notes}
         where con_id = #{con_id}
     </update>
 
@@ -53,6 +54,11 @@
     <select id="getContractList" parameterType="com.cattle.house.bean.ContractBean"
             resultType="com.cattle.house.bean.ContractBean">
         select * from house_contract
+    <where>
+        <if test="con_no != null">
+            and con_no = #{con_no}
+        </if>
+    </where>
     </select>
 
 </mapper>
