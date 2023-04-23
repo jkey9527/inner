@@ -6,10 +6,7 @@ import com.cattle.house.service.ContractService;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +16,10 @@ import java.util.List;
  * @author niujie
  * @date 2023/4/21 22:43
  */
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping(value = "/cattle/house/contract", method = RequestMethod.POST)
+@CrossOrigin(origins = "*")
 public class ContractController {
     private static final Logger LOGGER = LogManager.getLogger(ContractController.class);
 
@@ -34,9 +32,8 @@ public class ContractController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/saveContract")
-    public String saveContract(ContractBean contract) {
+    public String saveContract(@RequestBody ContractBean contract) {
         try {
             contractService.saveContract(contract);
             return Result.success("操作成功！");
@@ -53,9 +50,8 @@ public class ContractController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/updateContract")
-    public String updateContract(ContractBean contract) {
+    public String updateContract(@RequestBody ContractBean contract) {
         try {
             contractService.updateContract(contract);
             return Result.success("操作成功！");
@@ -72,9 +68,8 @@ public class ContractController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/deleteContract")
-    public String deleteContract(ContractBean contract) {
+    public String deleteContract(@RequestBody ContractBean contract) {
         try {
             contractService.deleteContract(contract);
             return Result.success("操作成功！");
@@ -91,9 +86,8 @@ public class ContractController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/getContractList")
-    public String getContractList(ContractBean contract) {
+    public String getContractList(@RequestBody ContractBean contract) {
         try {
             List<ContractBean> contractBeanList = contractService.getContractList(contract);
             return Result.success("操作成功！",contractBeanList);
@@ -110,9 +104,8 @@ public class ContractController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/getContractByContractId")
-    public String getContractByContractId(ContractBean contract) {
+    public String getContractByContractId(@RequestBody ContractBean contract) {
         try {
             ContractBean contractBean = contractService.getContractByContractId(contract.getCon_id());
             return Result.success("操作成功！",contractBean);

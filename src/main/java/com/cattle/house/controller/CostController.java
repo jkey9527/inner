@@ -6,10 +6,7 @@ import com.cattle.house.service.CostService;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +16,10 @@ import java.util.List;
  * @author niujie
  * @date 2023/4/21 22:43
  */
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping(value = "/cattle/house/cost", method = RequestMethod.POST)
+@CrossOrigin(origins = "*")
 public class CostController {
     private static final Logger LOGGER = LogManager.getLogger(CostController.class);
 
@@ -34,9 +32,8 @@ public class CostController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/getAllCostList")
-    public String getAllCostList(CostBean cost) {
+    public String getAllCostList(@RequestBody CostBean cost) {
         try {
             List<CostBean> costBeanList = costService.getAllCostList(cost);
             return Result.success("操作成功！", costBeanList);
@@ -53,9 +50,8 @@ public class CostController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/saveCost")
-    public String saveCost(CostBean cost) {
+    public String saveCost(@RequestBody CostBean cost) {
         try {
             costService.saveCost(cost);
             return Result.success("操作成功！");
@@ -72,9 +68,8 @@ public class CostController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/calculateCost")
-    public String calculateCost(CostBean cost) {
+    public String calculateCost(@RequestBody CostBean cost) {
         try {
             CostBean costBean = costService.calculateCost(cost);
             return Result.success("操作成功！", costBean);

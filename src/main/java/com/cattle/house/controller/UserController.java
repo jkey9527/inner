@@ -7,10 +7,7 @@ import com.cattle.house.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +17,10 @@ import java.util.List;
  * @author niujie
  * @date 2023/4/21 22:43
  */
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping(value = "/cattle/house/user", method = RequestMethod.POST)
+@CrossOrigin(origins = "*")
 public class UserController {
     private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
@@ -36,9 +34,8 @@ public class UserController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/login")
-    public String login(UserBean user) {
+    public String login(@RequestBody UserBean user) {
         try {
             UserBean userBean = userService.loginIn(user);
             if (ObjectUtil.isNull(userBean)) {
@@ -58,9 +55,8 @@ public class UserController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/saveUser")
-    public String saveUser(UserBean user) {
+    public String saveUser(@RequestBody UserBean user) {
         try {
             userService.saveUser(user);
             return Result.success("操作成功！");
@@ -77,9 +73,8 @@ public class UserController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/updateUser")
-    public String updateUser(UserBean user) {
+    public String updateUser(@RequestBody UserBean user) {
         try {
             userService.updateUser(user);
             return Result.success("操作成功！");
@@ -96,9 +91,8 @@ public class UserController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/deleteUser")
-    public String deleteUser(UserBean user) {
+    public String deleteUser(@RequestBody UserBean user) {
         try {
             userService.deleteUser(user);
             return Result.success("操作成功！");
@@ -115,9 +109,8 @@ public class UserController {
      * @author niujie
      * @date 2023/4/22
      */
-    @ResponseBody
     @RequestMapping("/getUserList")
-    public String getUserList(UserBean user) {
+    public String getUserList(@RequestBody UserBean user) {
         try {
             List<UserBean> userBeanList = userService.getUserList(user);
             return Result.success("操作成功！", userBeanList);
