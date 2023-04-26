@@ -1,6 +1,7 @@
 package com.cattle.house.controller;
 
 import com.cattle.house.bean.CostBean;
+import com.cattle.house.bean.UserBean;
 import com.cattle.house.response.Result;
 import com.cattle.house.service.CostService;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/cattle/house/cost", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/house/cost", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class CostController {
     private static final Logger LOGGER = LogManager.getLogger(CostController.class);
@@ -72,6 +73,25 @@ public class CostController {
     public String calculateCost(@RequestBody CostBean cost) {
         try {
             CostBean costBean = costService.calculateCost(cost);
+            return Result.success("操作成功！", costBean);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 初始化费用信息
+     *
+     * @param user user
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/4/24
+     */
+    @RequestMapping("/initCost")
+    public String initCost(@RequestBody UserBean user) {
+        try {
+            CostBean costBean = costService.initCost(user);
             return Result.success("操作成功！", costBean);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);

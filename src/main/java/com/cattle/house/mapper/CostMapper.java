@@ -34,10 +34,21 @@ public interface CostMapper {
 
     /**
      * 查询费用
+     *
      * @param cost cost
      * @return java.util.List<com.cattle.house.bean.CostBean>
      * @author niujie
      * @date 2023/4/22
      */
     List<CostBean> getCostList(CostBean cost);
+
+    /**
+     * 通过合同编号查询费用列表信息
+     *
+     * @param contractNo contractNo
+     * @return java.util.List<com.cattle.house.bean.CostBean>
+     * @author niujie
+     * @date 2023/4/24
+     */
+    List<CostBean> getCostListByContractNo(String contractNo);
 }

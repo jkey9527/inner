@@ -4,7 +4,7 @@
 
     <!--用户登录-->
     <select id="getUserBean" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
-        select user_id, user_name, user_no, user_phone
+        select user_id, user_name, user_no, user_phone, user_contract_no
         from house_user
         where (user_no = #{user_no} or user_phone = #{user_phone})
           and user_password = #{user_password}

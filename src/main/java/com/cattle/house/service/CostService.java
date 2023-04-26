@@ -1,6 +1,7 @@
 package com.cattle.house.service;
 
 import com.cattle.house.bean.CostBean;
+import com.cattle.house.bean.UserBean;
 
 import java.util.List;
 
@@ -41,10 +42,21 @@ public interface CostService {
 
     /**
      * 查询费用
+     *
      * @param cost cost
      * @return java.util.List<com.cattle.house.bean.CostBean>
      * @author niujie
      * @date 2023/4/22
      */
     List<CostBean> getCostList(CostBean cost) throws Exception;
+
+    /**
+     * 初始化费用
+     *
+     * @param user user
+     * @return com.cattle.house.bean.CostBean
+     * @author niujie
+     * @date 2023/4/24
+     */
+    CostBean initCost(UserBean user) throws Exception;
 }

@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/cattle/house/contract", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/house/contract", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class ContractController {
     private static final Logger LOGGER = LogManager.getLogger(ContractController.class);

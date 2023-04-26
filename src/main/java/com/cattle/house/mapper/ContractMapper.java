@@ -34,12 +34,13 @@ public interface ContractMapper {
 
     /**
      * 通过合同ID查询合同信息
-     * @param userId userId
+     *
+     * @param contractId contractId
      * @return com.cattle.house.bean.ContractBean
      * @author niujie
      * @date 2023/4/22
      */
-    ContractBean getContractByContractId(String userId);
+    ContractBean getContractByContractId(String contractId);
 
     /**
      * 修改合同信息

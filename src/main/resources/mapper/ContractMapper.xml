@@ -54,11 +54,11 @@
     <select id="getContractList" parameterType="com.cattle.house.bean.ContractBean"
             resultType="com.cattle.house.bean.ContractBean">
         select * from house_contract
-    <where>
-        <if test="con_no != null">
-            and con_no = #{con_no}
-        </if>
-    </where>
+        <where>
+            <if test="con_no != null">
+                and con_no = #{con_no}
+            </if>
+        </where>
     </select>
 
 </mapper>

@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/cattle/house/user", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/house/user", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class UserController {
     private static final Logger LOGGER = LogManager.getLogger(UserController.class);
@@ -39,7 +39,7 @@ public class UserController {
         try {
             UserBean userBean = userService.loginIn(user);
             if (ObjectUtil.isNull(userBean)) {
-                return Result.fail("操作失败！");
+                return Result.fail("用户名或密码错误！");
             }
             return Result.success("操作成功！", userBean);
         } catch (Exception e) {
