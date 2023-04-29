@@ -3,6 +3,7 @@ package com.cattle.house.bean;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  * @date 2023/4/21 22:33
  */
 @Data
-public class CostBean {
+public class CostBean implements Serializable {
 
     /**
      * 费用主键

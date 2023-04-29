@@ -17,4 +17,9 @@ public class ResponseStateConstant {
      * 失败
      */
     public static final int FAIL = 0;
+
+    /**
+     * 重新登录
+     */
+    public static final int RE_LOGIN = 2;
 }

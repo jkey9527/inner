@@ -2,6 +2,8 @@ package com.cattle.house.bean;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 用户实体bean
  *
@@ -9,7 +11,7 @@ import lombok.Data;
  * @date 2023/4/21 22:33
  */
 @Data
-public class UserBean {
+public class UserBean implements Serializable {
 
     /**
      * 用户主键

@@ -1,6 +1,7 @@
 package com.cattle.house.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.cattle.house.bean.ContractBean;
 import com.cattle.house.bean.CostBean;
@@ -48,12 +49,16 @@ public class CostServiceImpl implements CostService {
     @Override
     public void saveCost(CostBean cost) throws Exception {
         try {
+            Date curDate = new Date();
             cost.setCost_id(UuIdUtil.getUUID());
-            cost.setCost_date(new Date());
+            cost.setCost_date(curDate);
             List<CostBean> costBeanList = costMapper.getCostListByContractNo(cost.getCost_contract_no());
             int times = 1;
             if (CollUtil.isNotEmpty(costBeanList)) {
                 CostBean costBean = costBeanList.stream().max(Comparator.comparing(CostBean::getCost_times)).get();
+                if (DateUtil.isSameMonth(curDate, costBean.getCost_date())) {
+                    throw new Exception("本月已完成一次费用提交，请勿重复提交！");
+                }
                 times = costBean.getCost_times() + 1;
             }
             cost.setCost_times(times);
