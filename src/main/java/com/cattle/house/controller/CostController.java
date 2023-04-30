@@ -4,6 +4,7 @@ import com.cattle.house.bean.CostBean;
 import com.cattle.house.bean.UserBean;
 import com.cattle.house.response.Result;
 import com.cattle.house.service.CostService;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +39,24 @@ public class CostController {
         try {
             List<CostBean> costBeanList = costService.getAllCostList(cost);
             return Result.success("操作成功！", costBeanList);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 分页查询费用列表
+     * @param cost cost
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/4/30
+     */
+    @RequestMapping("/getAllCostList4Page")
+    public String getAllCostList4Page(@RequestBody CostBean cost) {
+        try {
+            PageInfo<CostBean> pageInfo = costService.getAllCostList4Page(cost);
+            return Result.success("操作成功！", pageInfo);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

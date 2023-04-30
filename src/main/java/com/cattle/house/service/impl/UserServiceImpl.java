@@ -4,11 +4,13 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cattle.house.bean.ContractBean;
+import com.cattle.house.bean.PageBean;
 import com.cattle.house.bean.UserBean;
 import com.cattle.house.constant.RedisConstant;
 import com.cattle.house.mapper.ContractMapper;
 import com.cattle.house.mapper.UserMapper;
 import com.cattle.house.service.UserService;
+import com.cattle.house.util.PageUtil;
 import com.cattle.house.util.RedisUtil;
 import com.cattle.house.util.UuIdUtil;
 import com.github.pagehelper.PageHelper;
@@ -70,8 +72,8 @@ public class UserServiceImpl implements UserService {
             checkUserInfo(userBean);
             ContractBean contractBean = new ContractBean();
             contractBean.setCon_no(userBean.getUser_contract_no());
-            List<ContractBean> contractList = contractMapper.getContractList(contractBean);
-            if(CollUtil.isEmpty(contractList)){
+            List<ContractBean> contractBeanList = contractMapper.getContractList(contractBean);
+            if(CollUtil.isEmpty(contractBeanList)){
                 throw new Exception("合同不存在！");
             }
             userBean.setUser_id(UuIdUtil.getUUID());
@@ -137,8 +139,8 @@ public class UserServiceImpl implements UserService {
             }
             ContractBean contractBean = new ContractBean();
             contractBean.setCon_no(userBean.getUser_contract_no());
-            List<ContractBean> contractList = contractMapper.getContractList(contractBean);
-            if(CollUtil.isEmpty(contractList)){
+            List<ContractBean> contractBeanList = contractMapper.getContractList(contractBean);
+            if(CollUtil.isEmpty(contractBeanList)){
                 throw new Exception("合同不存在！");
             }
             userMapper.updateUser(userBean);
@@ -161,7 +163,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageInfo<UserBean> getUserList4Page(UserBean user) throws Exception {
         try {
-            PageHelper.startPage(1, 5);
+            PageBean pageBean = user.getPageBean();
+            PageUtil.startPage(pageBean);
             List<UserBean> userList = userMapper.getUserList(user);
             PageInfo<UserBean> pageInfo = new PageInfo<>(userList);
             return pageInfo;

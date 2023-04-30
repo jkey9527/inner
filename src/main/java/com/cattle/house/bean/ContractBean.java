@@ -108,4 +108,9 @@ public class ContractBean implements Serializable {
      * 备注
      */
     private String con_notes;
+
+    /**
+     * 分页对象
+     */
+    private PageBean pageBean;
 }

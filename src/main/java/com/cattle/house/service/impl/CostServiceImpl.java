@@ -5,12 +5,15 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.cattle.house.bean.ContractBean;
 import com.cattle.house.bean.CostBean;
+import com.cattle.house.bean.PageBean;
 import com.cattle.house.bean.UserBean;
 import com.cattle.house.mapper.ContractMapper;
 import com.cattle.house.mapper.CostMapper;
 import com.cattle.house.mapper.UserMapper;
 import com.cattle.house.service.CostService;
+import com.cattle.house.util.PageUtil;
 import com.cattle.house.util.UuIdUtil;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,8 +44,13 @@ public class CostServiceImpl implements CostService {
 
 
     @Override
-    public List<CostBean> getAllCostList(CostBean cost) {
-        return costMapper.getAllCostList(cost);
+    public List<CostBean> getAllCostList(CostBean cost) throws Exception {
+        try {
+            return costMapper.getAllCostList(cost);
+        }catch (Exception e){
+            LOGGER.error(e);
+            throw new Exception(e);
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -74,16 +82,16 @@ public class CostServiceImpl implements CostService {
         try {
             ContractBean contractBean = new ContractBean();
             contractBean.setCon_no(cost.getCost_contract_no());
-            List<ContractBean> contractList = contractMapper.getContractList(contractBean);
-            if (CollUtil.isEmpty(contractList)) {
+            List<ContractBean> contractBeanList = contractMapper.getContractList(contractBean);
+            if (CollUtil.isEmpty(contractBeanList)) {
                 throw new Exception("未查询到合同信息");
             }
-            if (contractList.size() > 1) {
+            if (contractBeanList.size() > 1) {
                 throw new Exception("查询到多条合同信息，核算费用失败，请联系管理员！");
             }
             List<CostBean> costList = getCostList(cost);
             //计算本期金额
-            calculateCurCost(contractList, costList, cost);
+            calculateCurCost(contractBeanList, costList, cost);
             return cost;
         } catch (Exception e) {
             LOGGER.error(e);
@@ -121,6 +129,20 @@ public class CostServiceImpl implements CostService {
         }
     }
 
+    @Override
+    public PageInfo<CostBean> getAllCostList4Page(CostBean cost) throws Exception {
+        try {
+            PageBean pageBean = cost.getPageBean();
+            PageUtil.startPage(pageBean);
+            List<CostBean> costList = costMapper.getAllCostList(cost);
+            PageInfo<CostBean> pageInfo = new PageInfo<>(costList);
+            return pageInfo;
+        }catch (Exception e){
+            LOGGER.error(e);
+            throw new Exception(e);
+        }
+    }
+
     /**
      * 初始化费用信息
      *
@@ -141,14 +163,14 @@ public class CostServiceImpl implements CostService {
     /**
      * 计算本期读数、本期金额、本期总金额
      *
-     * @param contractList contractList
+     * @param contractBeanList contractList
      * @param costList     costList
      * @param cost         cost
      * @return void
      * @author niujie
      * @date 2023/4/22
      */
-    private void calculateCurCost(List<ContractBean> contractList, List<CostBean> costList, CostBean cost) throws Exception {
+    private void calculateCurCost(List<ContractBean> contractBeanList, List<CostBean> costList, CostBean cost) throws Exception {
         if (CollUtil.isEmpty(costList)) {
             cost.setCost_w_s_number(BigDecimal.ZERO);
             cost.setCost_e_s_number(BigDecimal.ZERO);
@@ -159,7 +181,7 @@ public class CostServiceImpl implements CostService {
             cost.setCost_e_s_number(costBean.getCost_e_e_number());
             cost.setCost_g_s_number(costBean.getCost_g_e_number());
         }
-        ContractBean contractBean = contractList.get(0);
+        ContractBean contractBean = contractBeanList.get(0);
         //计算本期读数
         cost.setCost_w_number(cost.getCost_w_e_number().subtract(cost.getCost_w_s_number()));
         if (cost.getCost_w_number().compareTo(BigDecimal.ZERO) <= 0) {

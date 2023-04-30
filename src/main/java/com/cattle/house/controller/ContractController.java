@@ -3,6 +3,7 @@ package com.cattle.house.controller;
 import com.cattle.house.bean.ContractBean;
 import com.cattle.house.response.Result;
 import com.cattle.house.service.ContractService;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,15 +28,15 @@ public class ContractController {
 
     /**
      * 保存合同
-     * @param contract contract
+     * @param contractBean contract
      * @return java.lang.String
      * @author niujie
      * @date 2023/4/22
      */
     @RequestMapping("/saveContract")
-    public String saveContract(@RequestBody ContractBean contract) {
+    public String saveContract(@RequestBody ContractBean contractBean) {
         try {
-            contractService.saveContract(contract);
+            contractService.saveContract(contractBean);
             return Result.success("操作成功！");
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
@@ -45,15 +46,15 @@ public class ContractController {
 
     /**
      * 修改合同
-     * @param contract contract
+     * @param contractBean contract
      * @return java.lang.String
      * @author niujie
      * @date 2023/4/22
      */
     @RequestMapping("/updateContract")
-    public String updateContract(@RequestBody ContractBean contract) {
+    public String updateContract(@RequestBody ContractBean contractBean) {
         try {
-            contractService.updateContract(contract);
+            contractService.updateContract(contractBean);
             return Result.success("操作成功！");
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
@@ -63,15 +64,15 @@ public class ContractController {
 
     /**
      * 删除合同
-     * @param contract contract
+     * @param contractBean contract
      * @return java.lang.String
      * @author niujie
      * @date 2023/4/22
      */
     @RequestMapping("/deleteContract")
-    public String deleteContract(@RequestBody ContractBean contract) {
+    public String deleteContract(@RequestBody ContractBean contractBean) {
         try {
-            contractService.deleteContract(contract);
+            contractService.deleteContract(contractBean);
             return Result.success("操作成功！");
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
@@ -80,17 +81,17 @@ public class ContractController {
     }
 
     /**
-     * 查询合同列表
-     * @param contract contract
+     * 分页查询合同列表
+     * @param contractBean contract
      * @return java.lang.String
      * @author niujie
      * @date 2023/4/22
      */
-    @RequestMapping("/getContractList")
-    public String getContractList(@RequestBody ContractBean contract) {
+    @RequestMapping("/getContractList4Page")
+    public String getContractList4Page(@RequestBody ContractBean contractBean) {
         try {
-            List<ContractBean> contractBeanList = contractService.getContractList(contract);
-            return Result.success("操作成功！",contractBeanList);
+            PageInfo<ContractBean> pageInfo = contractService.getContractList4Page(contractBean);
+            return Result.success("操作成功！", pageInfo);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

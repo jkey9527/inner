@@ -72,4 +72,9 @@ public class UserBean implements Serializable {
      * 密码锁编号
      */
     private Integer user_key_no;
+
+    /**
+     * 分页对象
+     */
+    private PageBean pageBean;
 }

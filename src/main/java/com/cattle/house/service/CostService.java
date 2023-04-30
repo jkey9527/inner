@@ -2,6 +2,7 @@ package com.cattle.house.service;
 
 import com.cattle.house.bean.CostBean;
 import com.cattle.house.bean.UserBean;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface CostService {
      * @author niujie
      * @date 2023/4/22
      */
-    List<CostBean> getAllCostList(CostBean cost);
+    List<CostBean> getAllCostList(CostBean cost) throws Exception;
 
     /**
      * 保存费用
@@ -59,4 +60,13 @@ public interface CostService {
      * @date 2023/4/24
      */
     CostBean initCost(UserBean user) throws Exception;
+
+    /**
+     * 分页查询费用
+     * @param cost cost
+     * @return com.github.pagehelper.PageInfo<com.cattle.house.bean.CostBean>
+     * @author niujie
+     * @date 2023/4/30
+     */
+    PageInfo<CostBean> getAllCostList4Page(CostBean cost) throws Exception;
 }

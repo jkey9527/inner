@@ -102,17 +102,16 @@ public class UserController {
     }
 
     /**
-     * 查询用户列表
+     * 分页查询用户列表
      * @param user user
      * @return java.lang.String
      * @author niujie
      * @date 2023/4/22
      */
-    @RequestMapping("/getUserList")
-    public String getUserList(@RequestBody UserBean user) {
+    @RequestMapping("/getUserList4Page")
+    public String getUserList4Page(@RequestBody UserBean user) {
         try {
             PageInfo<UserBean> pageInfo = userService.getUserList4Page(user);
-
             return Result.success("操作成功！", pageInfo);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);

@@ -5,9 +5,12 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cattle.house.bean.ContractBean;
+import com.cattle.house.bean.PageBean;
 import com.cattle.house.mapper.ContractMapper;
 import com.cattle.house.service.ContractService;
+import com.cattle.house.util.PageUtil;
 import com.cattle.house.util.UuIdUtil;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,9 +98,23 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractBean> getContractList(ContractBean contract) throws Exception {
+    public List<ContractBean> getContractList(ContractBean contractBean) throws Exception {
         try {
-            return contractMapper.getContractList(contract);
+            return contractMapper.getContractList(contractBean);
+        }catch (Exception e){
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public PageInfo<ContractBean> getContractList4Page(ContractBean contractBean) throws Exception {
+        try {
+            PageBean pageBean = contractBean.getPageBean();
+            PageUtil.startPage(pageBean);
+            List<ContractBean> contractList = contractMapper.getContractList(contractBean);
+            PageInfo<ContractBean> pageInfo = new PageInfo<>(contractList);
+            return pageInfo;
         }catch (Exception e){
             LOGGER.error(e);
             throw new Exception(e.getMessage());

@@ -102,4 +102,9 @@ public class CostBean implements Serializable {
      */
     private BigDecimal cost_g_number;
 
+    /**
+     * 分页对象
+     */
+    private PageBean pageBean;
+
 }

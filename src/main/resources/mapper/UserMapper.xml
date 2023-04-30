@@ -20,15 +20,13 @@
 
     <!--删除用户-->
     <delete id="deleteUser" parameterType="com.cattle.house.bean.UserBean">
-        delete
-        from house_user
+        delete from house_user
         where user_id = #{user_id}
     </delete>
 
     <!--通过用户ID查询用户信息-->
     <select id="getUserByUserId" parameterType="java.lang.String" resultType="com.cattle.house.bean.UserBean">
-        select *
-        from house_user
+        select * from house_user
         where user_id = #{user_id}
     </select>
 
@@ -51,8 +49,7 @@
 
     <!--查询用户列表-->
     <select id="getUserList" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
-        select *
-        from house_user
+        select * from house_user
     </select>
 
 </mapper>

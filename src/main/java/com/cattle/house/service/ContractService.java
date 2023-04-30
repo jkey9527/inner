@@ -1,6 +1,7 @@
 package com.cattle.house.service;
 
 import com.cattle.house.bean.ContractBean;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -50,10 +51,19 @@ public interface ContractService {
 
     /**
      * 查询合同列表
-     * @param contract contract
+     * @param contractBean contract
      * @return java.util.List<com.cattle.house.bean.ContractBean>
      * @author niujie
      * @date 2023/4/22
      */
-    List<ContractBean> getContractList(ContractBean contract) throws Exception;
+    List<ContractBean> getContractList(ContractBean contractBean) throws Exception;
+
+    /**
+     * 分页查询合同列表
+     * @param contractBean contractBean
+     * @return com.github.pagehelper.PageInfo<com.cattle.house.bean.ContractBean>
+     * @author niujie
+     * @date 2023/4/30
+     */
+    PageInfo<ContractBean> getContractList4Page(ContractBean contractBean) throws Exception;
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * TODO
+ * 配置实体
  *
  * @author niujie
  * @date 2023/4/30 15:55
@@ -13,7 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "profile")
 @Data
-public class Profile {
+public class ProfileBean {
 
+    /**
+     * 是否开发模式
+     */
     private boolean development;
+
 }
