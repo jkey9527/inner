@@ -19,6 +19,7 @@ import java.util.Date;
 
 /**
  * 拦截器
+ * 用于判断token与用户登录token
  *
  * @author niujie
  * @date 2023/4/29 11:05

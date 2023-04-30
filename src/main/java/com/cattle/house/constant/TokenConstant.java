@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * token常量类
+ * token常量
  *
  * @author niujie
  * @date 2023/4/29 11:59

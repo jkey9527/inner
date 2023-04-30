@@ -1,7 +1,7 @@
 package com.cattle.house.constant;
 
 /**
- * redis缓存静态类
+ * redis缓存常量
  *
  * @author niujie
  * @date 2023/4/29 10:30

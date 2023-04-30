@@ -3,7 +3,7 @@ package com.cattle.house.bean;
 import lombok.Data;
 
 /**
- * token对象
+ * token实体
  *
  * @author niujie
  * @date 2023/4/29 11:39

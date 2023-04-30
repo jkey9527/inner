@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 用户实体bean
+ * 用户实体
  *
  * @author niujie
  * @date 2023/4/21 22:33

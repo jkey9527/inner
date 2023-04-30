@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 费用实体bean
+ * 费用合同
  *
  * @author niujie
  * @date 2023/4/21 22:33
