@@ -18,9 +18,19 @@ spring:
       restart:
         enable: true
 
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.cattle.house.bean
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  #使用mysql语言
+  helper-dialect: mysql
+  #开启查询优化，默认false
+  reasonable: true
+  support-methods-arguments: true
+
+
+profile:
+  development: true

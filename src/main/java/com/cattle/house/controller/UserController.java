@@ -4,12 +4,11 @@ import cn.hutool.core.util.ObjectUtil;
 import com.cattle.house.bean.UserBean;
 import com.cattle.house.response.Result;
 import com.cattle.house.service.UserService;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 用户
@@ -112,8 +111,9 @@ public class UserController {
     @RequestMapping("/getUserList")
     public String getUserList(@RequestBody UserBean user) {
         try {
-            List<UserBean> userBeanList = userService.getUserList(user);
-            return Result.success("操作成功！", userBeanList);
+            PageInfo<UserBean> pageInfo = userService.getUserList4Page(user);
+
+            return Result.success("操作成功！", pageInfo);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

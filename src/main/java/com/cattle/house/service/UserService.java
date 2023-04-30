@@ -1,6 +1,7 @@
 package com.cattle.house.service;
 
 import com.cattle.house.bean.UserBean;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -59,10 +60,21 @@ public interface UserService {
 
     /**
      * 查询用户列表
+     *
      * @param user user
      * @return java.util.List<com.cattle.house.bean.UserBean>
      * @author niujie
      * @date 2023/4/22
      */
     List<UserBean> getUserList(UserBean user) throws Exception;
+
+    /**
+     * 分页查询
+     *
+     * @param user user
+     * @return com.github.pagehelper.PageInfo<com.cattle.house.bean.UserBean>
+     * @author niujie
+     * @date 2023/4/30
+     */
+    PageInfo<UserBean> getUserList4Page(UserBean user) throws Exception;
 }

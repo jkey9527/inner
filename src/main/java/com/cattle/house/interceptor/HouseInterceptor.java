@@ -1,8 +1,10 @@
 package com.cattle.house.interceptor;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.cattle.house.bean.Profile;
 import com.cattle.house.response.Result;
 import com.cattle.house.service.TokenService;
 import com.cattle.house.util.RedisUtil;
@@ -33,12 +35,20 @@ public class HouseInterceptor implements HandlerInterceptor {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private Profile profile;
+
     public HouseInterceptor() {
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         LOGGER.info(DateUtil.format(new Date(), DatePattern.NORM_DATETIME_PATTERN) + "--访问地址：" + request.getRequestURL());
+        boolean development = Convert.toBool(profile.isDevelopment(), false);
+        LOGGER.info("development is " + development);
+        if (development) {
+            return HandlerInterceptor.super.preHandle(request, response, handler);
+        }
         String token = request.getHeader("token");
         String msg = tokenService.checkToken(token);
         if (StrUtil.isBlank(msg)) {

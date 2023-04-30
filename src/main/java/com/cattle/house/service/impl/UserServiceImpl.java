@@ -11,6 +11,8 @@ import com.cattle.house.mapper.UserMapper;
 import com.cattle.house.service.UserService;
 import com.cattle.house.util.RedisUtil;
 import com.cattle.house.util.UuIdUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -150,6 +152,19 @@ public class UserServiceImpl implements UserService {
     public List<UserBean> getUserList(UserBean user) throws Exception {
         try {
             return userMapper.getUserList(user);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public PageInfo<UserBean> getUserList4Page(UserBean user) throws Exception {
+        try {
+            PageHelper.startPage(1, 5);
+            List<UserBean> userList = userMapper.getUserList(user);
+            PageInfo<UserBean> pageInfo = new PageInfo<>(userList);
+            return pageInfo;
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());

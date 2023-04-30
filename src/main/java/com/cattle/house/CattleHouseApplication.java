@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @MapperScan("com.cattle.house.mapper")
 @EnableTransactionManagement
-public class CattleHouseApplication {
 
+public class CattleHouseApplication {
     public static void main(String[] args) {
         SpringApplication.run(CattleHouseApplication.class, args);
     }
