@@ -4,8 +4,7 @@ import com.cattle.house.bean.TokenBean;
 import com.cattle.house.response.Result;
 import com.cattle.house.service.TokenService;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "cattle/house/token", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class TokenController {
-    private static final Logger LOGGER = LogManager.getLogger(TokenController.class);
+    private static final Logger LOGGER = Logger.getLogger(TokenController.class);
 
     private TokenService tokenService;
 

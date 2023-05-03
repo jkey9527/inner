@@ -12,8 +12,7 @@ import com.cattle.house.util.PageUtil;
 import com.cattle.house.util.UuIdUtil;
 import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ContractServiceImpl implements ContractService {
-    private static final Logger LOGGER = LogManager.getLogger(ContractServiceImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(ContractServiceImpl.class);
 
     private ContractMapper contractMapper;
 

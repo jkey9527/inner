@@ -8,8 +8,7 @@ import com.cattle.house.service.TokenService;
 import com.cattle.house.util.RedisUtil;
 import com.cattle.house.util.UuIdUtil;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
-    private static final Logger LOGGER = LogManager.getLogger(TokenServiceImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(TokenServiceImpl.class);
 
     private RedisUtil redisUtil;
 

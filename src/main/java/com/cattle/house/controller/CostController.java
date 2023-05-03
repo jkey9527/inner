@@ -6,8 +6,7 @@ import com.cattle.house.response.Result;
 import com.cattle.house.service.CostService;
 import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 @RequestMapping(value = "cattle/house/cost", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class CostController {
-    private static final Logger LOGGER = LogManager.getLogger(CostController.class);
+    private static final Logger LOGGER = Logger.getLogger(CostController.class);
 
     private CostService costService;
 

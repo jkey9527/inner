@@ -6,8 +6,7 @@ import com.cattle.house.response.Result;
 import com.cattle.house.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "cattle/house/user", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class UserController {
-    private static final Logger LOGGER = LogManager.getLogger(UserController.class);
+    private static final Logger LOGGER = Logger.getLogger(UserController.class);
 
     private UserService userService;
 

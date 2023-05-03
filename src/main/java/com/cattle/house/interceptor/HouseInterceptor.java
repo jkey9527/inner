@@ -10,8 +10,7 @@ import com.cattle.house.service.TokenService;
 import com.cattle.house.util.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +26,7 @@ import java.util.Date;
  * @date 2023/4/29 11:05
  */
 public class HouseInterceptor implements HandlerInterceptor {
-    private static final Logger LOGGER = LogManager.getLogger(HouseInterceptor.class);
+    private static final Logger LOGGER = Logger.getLogger(HouseInterceptor.class);
 
     @Autowired
     private TokenService tokenService;
@@ -52,7 +51,7 @@ public class HouseInterceptor implements HandlerInterceptor {
         String token = request.getHeader("token");
         String msg = tokenService.checkToken(token);
         if (StrUtil.isBlank(msg)) {
-            String userId = request.getHeader("user_id");
+            String userId = request.getHeader("userid");
             boolean userLogin = redisUtil.hasKey(userId);
             if (!userLogin) {
                 msg = "登录信息已过期，请重新登录！";
