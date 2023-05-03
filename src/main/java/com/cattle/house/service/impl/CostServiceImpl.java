@@ -1,6 +1,7 @@
 package com.cattle.house.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.cattle.house.bean.ContractBean;
@@ -137,7 +138,21 @@ public class CostServiceImpl implements CostService {
             List<CostBean> costList = costMapper.getAllCostList(cost);
             PageInfo<CostBean> pageInfo = new PageInfo<>(costList);
             return pageInfo;
-        }catch (Exception e){
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    public PageInfo<CostBean> getCostListByContractNo4Page(CostBean cost) throws Exception {
+        try {
+            PageBean pageBean = cost.getPageBean();
+            PageUtil.startPage(pageBean);
+            List<CostBean> costList = costMapper.getCostList(cost);
+            PageInfo<CostBean> pageInfo = new PageInfo<>(costList);
+            return pageInfo;
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e);
         }
@@ -183,15 +198,15 @@ public class CostServiceImpl implements CostService {
         }
         ContractBean contractBean = contractBeanList.get(0);
         //计算本期读数
-        cost.setCost_w_number(cost.getCost_w_e_number().subtract(cost.getCost_w_s_number()));
+        cost.setCost_w_number(Convert.toBigDecimal(cost.getCost_w_e_number(), BigDecimal.ZERO).subtract(cost.getCost_w_s_number()));
         if (cost.getCost_w_number().compareTo(BigDecimal.ZERO) <= 0) {
             throw new Exception("水表期末读数不正确，应大于期初数值");
         }
-        cost.setCost_e_number(cost.getCost_e_e_number().subtract(cost.getCost_e_s_number()));
+        cost.setCost_e_number(Convert.toBigDecimal(cost.getCost_e_e_number(), BigDecimal.ZERO).subtract(cost.getCost_e_s_number()));
         if (cost.getCost_e_number().compareTo(BigDecimal.ZERO) <= 0) {
             throw new Exception("电表期末读数不正确，应大于期初数值");
         }
-        cost.setCost_g_number(cost.getCost_g_e_number().subtract(cost.getCost_g_s_number()));
+        cost.setCost_g_number(Convert.toBigDecimal(cost.getCost_g_e_number(), BigDecimal.ZERO).subtract(cost.getCost_g_s_number()));
         if (cost.getCost_g_number().compareTo(BigDecimal.ZERO) <= 0) {
             throw new Exception("气表期末读数不正确，应大于期初数值");
         }

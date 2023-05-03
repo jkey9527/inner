@@ -17,6 +17,7 @@
                 and cost_contract_no = #{cost_contract_no}
             </if>
         </where>
+        order by cost_times
     </select>
 
     <!--根据合同编号查询费用列表-->

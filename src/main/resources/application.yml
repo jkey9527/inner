@@ -6,8 +6,8 @@ spring:
     name: cattle_house
     url: jdbc:mysql://127.0.0.1:3306/cattle_house
     username: root
-    #password: abc=1234
-    password: root123456
+    password: abc=1234
+    #password: root123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     redis:
@@ -31,4 +31,4 @@ pagehelper:
 
 
 profile:
-  development: true
+  development: false

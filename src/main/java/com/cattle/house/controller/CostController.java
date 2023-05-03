@@ -46,6 +46,25 @@ public class CostController {
     }
 
     /**
+     * 根据合同编号查询费用信息
+     *
+     * @param cost cost
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/1
+     */
+    @RequestMapping("/getCostListByContractNo4Page")
+    public String getCostListByContractNo4Page(@RequestBody CostBean cost) {
+        try {
+            PageInfo<CostBean> pageInfo = costService.getCostListByContractNo4Page(cost);
+            return Result.success("操作成功！", pageInfo);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
      * 分页查询费用列表
      * @param cost cost
      * @return java.lang.String

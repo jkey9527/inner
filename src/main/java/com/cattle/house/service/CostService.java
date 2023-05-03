@@ -63,10 +63,21 @@ public interface CostService {
 
     /**
      * 分页查询费用
+     *
      * @param cost cost
      * @return com.github.pagehelper.PageInfo<com.cattle.house.bean.CostBean>
      * @author niujie
      * @date 2023/4/30
      */
     PageInfo<CostBean> getAllCostList4Page(CostBean cost) throws Exception;
+
+    /**
+     * 通过合同编号查询费用信息
+     *
+     * @param cost cost
+     * @return com.github.pagehelper.PageInfo<com.cattle.house.bean.CostBean>
+     * @author niujie
+     * @date 2023/5/1
+     */
+    PageInfo<CostBean> getCostListByContractNo4Page(CostBean cost) throws Exception;
 }
