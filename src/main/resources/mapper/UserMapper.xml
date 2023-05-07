@@ -26,7 +26,18 @@
 
     <!--通过用户ID查询用户信息-->
     <select id="getUserByUserId" parameterType="java.lang.String" resultType="com.cattle.house.bean.UserBean">
-        select * from house_user
+        select user_id,
+               user_no,
+               user_name,
+               user_phone,
+               user_type,
+               user_contract_no,
+               user_state,
+               user_id_card,
+               user_car_no,
+               user_notes,
+               user_key_no
+        from house_user
         where user_id = #{user_id}
     </select>
 

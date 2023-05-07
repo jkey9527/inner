@@ -133,7 +133,7 @@ public class CostServiceImpl implements CostService {
     public PageInfo<CostBean> getAllCostList4Page(CostBean cost) throws Exception {
         try {
             PageBean pageBean = cost.getPageBean();
-            PageUtil.startPage(pageBean);
+            PageUtil.startPage(pageBean, "cost_times desc");
             List<CostBean> costList = costMapper.getAllCostList(cost);
             PageInfo<CostBean> pageInfo = new PageInfo<>(costList);
             return pageInfo;
@@ -147,7 +147,7 @@ public class CostServiceImpl implements CostService {
     public PageInfo<CostBean> getCostListByContractNo4Page(CostBean cost) throws Exception {
         try {
             PageBean pageBean = cost.getPageBean();
-            PageUtil.startPage(pageBean);
+            PageUtil.startPage(pageBean, "cost_times desc");
             List<CostBean> costList = costMapper.getCostList(cost);
             PageInfo<CostBean> pageInfo = new PageInfo<>(costList);
             return pageInfo;

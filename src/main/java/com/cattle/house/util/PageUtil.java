@@ -2,6 +2,7 @@ package com.cattle.house.util;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.cattle.house.bean.PageBean;
 import com.cattle.house.constant.PageConstant;
 import com.github.pagehelper.PageHelper;
@@ -14,13 +15,16 @@ import com.github.pagehelper.PageHelper;
  */
 public class PageUtil {
 
-    public static void startPage(PageBean pageBean){
-        if(ObjectUtil.isNull(pageBean)){
-            PageHelper.startPage(PageConstant.PAGE_NUM,PageConstant.PAGE_SIZE);
+    public static void startPage(PageBean pageBean, String order) {
+        if (StrUtil.isBlank(order)) {
+            order = "";
+        }
+        if (ObjectUtil.isNull(pageBean)) {
+            PageHelper.startPage(PageConstant.PAGE_NUM, PageConstant.PAGE_SIZE, order);
             return;
         }
-        Integer pageNum = Convert.toInt(pageBean.getPageNum(),PageConstant.PAGE_NUM);
+        Integer pageNum = Convert.toInt(pageBean.getPageNum(), PageConstant.PAGE_NUM);
         Integer pageSize = Convert.toInt(pageBean.getPageSize(), PageConstant.PAGE_SIZE);
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize, order);
     }
 }

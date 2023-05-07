@@ -110,7 +110,7 @@ public class ContractServiceImpl implements ContractService {
     public PageInfo<ContractBean> getContractList4Page(ContractBean contractBean) throws Exception {
         try {
             PageBean pageBean = contractBean.getPageBean();
-            PageUtil.startPage(pageBean);
+            PageUtil.startPage(pageBean, "");
             List<ContractBean> contractList = contractMapper.getContractList(contractBean);
             PageInfo<ContractBean> pageInfo = new PageInfo<>(contractList);
             return pageInfo;

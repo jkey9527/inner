@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
     public PageInfo<UserBean> getUserList4Page(UserBean user) throws Exception {
         try {
             PageBean pageBean = user.getPageBean();
-            PageUtil.startPage(pageBean);
+            PageUtil.startPage(pageBean, "");
             List<UserBean> userList = userMapper.getUserList(user);
             PageInfo<UserBean> pageInfo = new PageInfo<>(userList);
             return pageInfo;

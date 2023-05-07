@@ -118,4 +118,23 @@ public class UserController {
         }
     }
 
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param user user
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/7
+     */
+    @RequestMapping("/getUser")
+    public String getUser(@RequestBody UserBean user) {
+        try {
+            UserBean userBean = userService.getUserByUserId(user.getUser_id());
+            return Result.success("操作成功！", userBean);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
 }
