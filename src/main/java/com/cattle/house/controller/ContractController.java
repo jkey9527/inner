@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 合同
  *
@@ -106,7 +108,25 @@ public class ContractController {
     public String getContractByContractId(@RequestBody ContractBean contract) {
         try {
             ContractBean contractBean = contractService.getContractByContractId(contract.getCon_id());
-            return Result.success("操作成功！",contractBean);
+            return Result.success("操作成功！", contractBean);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 查询所有合同下拉信息
+     *
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/14
+     */
+    @RequestMapping("/getContractOptions")
+    public String getContractOptions() {
+        try {
+            List<ContractBean> contractBeans = contractService.getContractOptions();
+            return Result.success("操作成功！", contractBeans);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

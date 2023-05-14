@@ -61,4 +61,11 @@
         </where>
     </select>
 
+    <!--查询合同列表-->
+    <select id="getContractOptions" resultType="com.cattle.house.bean.ContractBean">
+        select con_no, con_house_no
+        from house_contract
+        order by con_house_no
+    </select>
+
 </mapper>

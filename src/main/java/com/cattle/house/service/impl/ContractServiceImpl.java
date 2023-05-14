@@ -114,7 +114,17 @@ public class ContractServiceImpl implements ContractService {
             List<ContractBean> contractList = contractMapper.getContractList(contractBean);
             PageInfo<ContractBean> pageInfo = new PageInfo<>(contractList);
             return pageInfo;
-        }catch (Exception e){
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<ContractBean> getContractOptions() throws Exception {
+        try {
+            return contractMapper.getContractOptions();
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
         }

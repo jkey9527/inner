@@ -3,6 +3,7 @@ package com.cattle.house;
 import com.cattle.house.service.UserService;
 import com.cattle.house.util.RedisUtil;
 import org.apache.log4j.Logger;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,6 +17,11 @@ class CattleHouseApplicationTests {
 
     @Autowired
     private UserService userService;
+
+    @Test
+    public void TestRedis() {
+        redisUtil.deleteKey("test");
+    }
 
 
 }

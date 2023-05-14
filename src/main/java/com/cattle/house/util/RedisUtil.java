@@ -342,6 +342,10 @@ public class RedisUtil {
         return redisTemplate.opsForHash().delete(key, hashKeys);
     }
 
+    public void deleteKey(String key) {
+        redisTemplate.delete(key);
+    }
+
     /**
      * 给指定 hash 的 hashkey 做增减操作
      *

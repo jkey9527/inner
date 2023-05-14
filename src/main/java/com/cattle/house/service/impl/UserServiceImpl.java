@@ -55,6 +55,19 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+
+    @Override
+    public void loginOut(UserBean user) {
+        if (ObjectUtil.isNull(user.getUser_id())) {
+            return;
+        }
+        boolean hasKey = redisUtil.hasKey(user.getUser_id());
+        if (hasKey) {
+            redisUtil.deleteKey(user.getUser_id());
+        }
+
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveUser(UserBean userBean) throws Exception {

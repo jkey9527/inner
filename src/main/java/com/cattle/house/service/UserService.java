@@ -15,6 +15,7 @@ public interface UserService {
 
     /**
      * 用户登录
+     *
      * @param userBean userBean
      * @return com.cattle.house.bean.UserBean
      * @author niujie
@@ -23,7 +24,18 @@ public interface UserService {
     UserBean loginIn(UserBean userBean) throws Exception;
 
     /**
+     * 注销登录
+     *
+     * @param user user
+     * @return void
+     * @author niujie
+     * @date 2023/5/14
+     */
+    void loginOut(UserBean user);
+
+    /**
      * 保存用户
+     *
      * @param userBean userBean
      * @return void
      * @author niujie
@@ -77,4 +89,6 @@ public interface UserService {
      * @date 2023/4/30
      */
     PageInfo<UserBean> getUserList4Page(UserBean user) throws Exception;
+
+
 }

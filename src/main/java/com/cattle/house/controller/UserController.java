@@ -47,7 +47,27 @@ public class UserController {
     }
 
     /**
+     * 用户注销登录
+     *
+     * @param user user
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/14
+     */
+    @RequestMapping("/loginOut")
+    public String loginOut(@RequestBody UserBean user) {
+        try {
+            userService.loginOut(user);
+            return Result.success("操作成功！");
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
      * 保存用户
+     *
      * @param user user
      * @return java.lang.String
      * @author niujie

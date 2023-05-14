@@ -60,10 +60,20 @@ public interface ContractService {
 
     /**
      * 分页查询合同列表
+     *
      * @param contractBean contractBean
      * @return com.github.pagehelper.PageInfo<com.cattle.house.bean.ContractBean>
      * @author niujie
      * @date 2023/4/30
      */
     PageInfo<ContractBean> getContractList4Page(ContractBean contractBean) throws Exception;
+
+    /**
+     * 查询所有合同下拉信息
+     *
+     * @return java.util.List<com.cattle.house.bean.ContractBean>
+     * @author niujie
+     * @date 2023/5/14
+     */
+    List<ContractBean> getContractOptions() throws Exception;
 }

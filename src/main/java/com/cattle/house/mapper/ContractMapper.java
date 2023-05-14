@@ -53,10 +53,20 @@ public interface ContractMapper {
 
     /**
      * 查询合同列表
+     *
      * @param contractBean contract
      * @return java.util.List<com.cattle.house.bean.ContractBean>
      * @author niujie
      * @date 2023/4/22
      */
     List<ContractBean> getContractList(ContractBean contractBean);
+
+    /**
+     * 查询所有合同下拉信息
+     *
+     * @return java.util.List<com.cattle.house.bean.ContractBean>
+     * @author niujie
+     * @date 2023/5/14
+     */
+    List<ContractBean> getContractOptions();
 }
