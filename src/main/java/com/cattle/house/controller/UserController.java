@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 用户
  *
@@ -151,6 +153,43 @@ public class UserController {
         try {
             UserBean userBean = userService.getUserByUserId(user.getUser_id());
             return Result.success("操作成功！", userBean);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 修改用户状态
+     *
+     * @param user user
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/27
+     */
+    @RequestMapping("/updateUserState")
+    public String updateUserState(@RequestBody UserBean user) {
+        try {
+            userService.updateUserState(user);
+            return Result.success("操作成功！");
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 查询用户列表信息
+     *
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/27
+     */
+    @RequestMapping("/getUserOptions")
+    public String getUserOptions() {
+        try {
+            List<UserBean> userBeans = userService.getUserOptions();
+            return Result.success("操作成功！", userBeans);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

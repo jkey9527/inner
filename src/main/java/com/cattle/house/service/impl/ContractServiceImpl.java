@@ -120,10 +120,29 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<ContractBean> getContractOptions() throws Exception {
         try {
             return contractMapper.getContractOptions();
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateContractState(ContractBean contractBean) throws Exception {
+        try {
+            String conId = contractBean.getCon_id();
+            if (StrUtil.isBlank(conId)) {
+                throw new Exception("参数{conId}异常");
+            }
+            ContractBean contract = getContractByContractId(conId);
+            if (ObjectUtil.isNull(contract)) {
+                throw new Exception("修改失败，未查询到合同信息");
+            }
+            contractMapper.updateContractState(contractBean);
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());

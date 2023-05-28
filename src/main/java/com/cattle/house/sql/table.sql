@@ -53,13 +53,22 @@ create table house_user
     user_name        varchar(255) null comment '用户名称',
     user_phone       varchar(11)  null comment '用户手机号',
     user_password    varchar(255) null comment '用户密码',
-    user_type        int(1)       null comment '用户类型',
-    user_contract_no varchar(32)  null comment '合同号',
-    user_state       int(1)       null comment '用户状态',
-    user_id_card     varchar(20)  null comment '身份证号',
+    user_type        int(1) null comment '用户类型',
+    user_contract_no varchar(32) null comment '合同号',
+    user_state       int(1) null comment '用户状态',
+    user_id_card     varchar(20) null comment '身份证号',
     user_car_no      varchar(255) null comment '车牌号',
-    user_notes       text         null comment '备注',
-    user_key_no      int(2)       null comment '密码锁编号'
-)
-    comment '用户表';
+    user_notes       text null comment '备注',
+    user_key_no      int(2) null comment '密码锁编号'
+) comment '用户表';
 
+create table house_record
+(
+    r_id          varchar(36) not null
+        primary key,
+    r_type        int null,
+    r_money       decimal(10, 2) null,
+    r_date        date null,
+    r_msg         varchar(255) null,
+    r_create_time datetime null
+) comment '明细表';

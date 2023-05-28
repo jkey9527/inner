@@ -68,4 +68,11 @@
         order by con_house_no
     </select>
 
+    <!--修改合同状态-->
+    <update id="updateContractState" parameterType="com.cattle.house.bean.ContractBean">
+        update house_contract
+        set con_state = #{con_state}
+        where con_id = #{con_id}
+    </update>
+
 </mapper>

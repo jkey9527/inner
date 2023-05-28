@@ -133,4 +133,23 @@ public class ContractController {
         }
     }
 
+    /**
+     * 修改合同状态
+     *
+     * @param contractBean contractBean
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/27
+     */
+    @RequestMapping("/updateContractState")
+    public String updateContractState(@RequestBody ContractBean contractBean) {
+        try {
+            contractService.updateContractState(contractBean);
+            return Result.success("操作成功！");
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import com.cattle.house.bean.ContractBean;
 import com.cattle.house.bean.PageBean;
 import com.cattle.house.bean.UserBean;
 import com.cattle.house.constant.RedisConstant;
+import com.cattle.house.enums.UserStateEnum;
 import com.cattle.house.mapper.ContractMapper;
 import com.cattle.house.mapper.UserMapper;
 import com.cattle.house.service.UserService;
@@ -107,6 +108,9 @@ public class UserServiceImpl implements UserService {
             if (ObjectUtil.isNull(user)) {
                 throw new Exception("删除失败，未查询到用户信息");
             }
+            if (ObjectUtil.equal(user.getUser_state(), UserStateEnum.USE.getValue())) {
+                throw new Exception("删除失败，请先停用，再删除");
+            }
             userMapper.deleteUser(userBean);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -179,6 +183,31 @@ public class UserServiceImpl implements UserService {
             List<UserBean> userList = userMapper.getUserList(user);
             PageInfo<UserBean> pageInfo = new PageInfo<>(userList);
             return pageInfo;
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateUserState(UserBean user) throws Exception {
+        try {
+            UserBean userBean = getUserByUserId(user.getUser_id());
+            if (ObjectUtil.isNull(userBean)) {
+                throw new Exception("用户不存在，操作失败！");
+            }
+            userMapper.updateUserState(userBean);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<UserBean> getUserOptions() throws Exception {
+        try {
+            return userMapper.getUserOptions();
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());

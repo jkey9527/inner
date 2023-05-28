@@ -90,5 +90,22 @@ public interface UserService {
      */
     PageInfo<UserBean> getUserList4Page(UserBean user) throws Exception;
 
+    /**
+     * 修改用户状态
+     *
+     * @param user user
+     * @return void
+     * @author niujie
+     * @date 2023/5/27
+     */
+    void updateUserState(UserBean user) throws Exception;
 
+    /**
+     * 查询用户列表
+     *
+     * @return java.util.List<com.cattle.house.bean.UserBean>
+     * @author niujie
+     * @date 2023/5/27
+     */
+    List<UserBean> getUserOptions() throws Exception;
 }

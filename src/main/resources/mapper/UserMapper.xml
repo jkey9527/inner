@@ -8,6 +8,7 @@
         from house_user
         where (user_no = #{user_no} or user_phone = #{user_phone})
           and user_password = #{user_password}
+          and user_state = 1
     </select>
 
     <!--保存用户-->
@@ -20,8 +21,10 @@
 
     <!--删除用户-->
     <delete id="deleteUser" parameterType="com.cattle.house.bean.UserBean">
-        delete from house_user
+        delete
+        from house_user
         where user_id = #{user_id}
+          and user_state = 0
     </delete>
 
     <!--通过用户ID查询用户信息-->
@@ -60,7 +63,23 @@
 
     <!--查询用户列表-->
     <select id="getUserList" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
-        select * from house_user
+        select *
+        from house_user
+    </select>
+
+    <!--查询用户列表-->
+    <select id="getUserOptions" resultType="com.cattle.house.bean.UserBean">
+        select user_id, user_no, user_name
+        from house_user
+        where user_type = 1
+        order by user_no
+    </select>
+
+    <!--修改用户状态-->
+    <select id="updateUserState" parameterType="com.cattle.house.bean.UserBean">
+        update house_user
+        set user_state = #{user_state}
+        where user_id = #{user_id}
     </select>
 
 </mapper>

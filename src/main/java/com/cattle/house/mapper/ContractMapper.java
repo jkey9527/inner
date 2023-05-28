@@ -69,4 +69,14 @@ public interface ContractMapper {
      * @date 2023/5/14
      */
     List<ContractBean> getContractOptions();
+
+    /**
+     * 修改合同状态
+     *
+     * @param contractBean contractBean
+     * @return void
+     * @author niujie
+     * @date 2023/5/27
+     */
+    void updateContractState(ContractBean contractBean);
 }

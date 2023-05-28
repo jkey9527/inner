@@ -61,10 +61,30 @@ public interface UserMapper {
 
     /**
      * 查询用户列表信息
+     *
      * @param user user
      * @return java.util.List<com.cattle.house.bean.UserBean>
      * @author niujie
      * @date 2023/4/22
      */
     List<UserBean> getUserList(UserBean user);
+
+    /**
+     * 修改用户状态
+     *
+     * @param userBean userBean
+     * @return void
+     * @author niujie
+     * @date 2023/5/27
+     */
+    void updateUserState(UserBean userBean);
+
+    /**
+     * 查询用户列表信息
+     *
+     * @return java.util.List<com.cattle.house.bean.UserBean>
+     * @author niujie
+     * @date 2023/5/27
+     */
+    List<UserBean> getUserOptions();
 }
