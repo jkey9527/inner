@@ -3,6 +3,8 @@ package com.cattle.house.service;
 import com.cattle.house.bean.RecordBean;
 import com.github.pagehelper.PageInfo;
 
+import java.math.BigDecimal;
+
 /**
  * 明细服务接口
  *
@@ -60,4 +62,12 @@ public interface RecordService {
      * @date 2023/5/27
      */
     PageInfo<RecordBean> getRecordList4Page(RecordBean record) throws Exception;
+
+    /**
+     * 查询余额
+     * @return java.math.BigDecimal
+     * @author niujie
+     * @date 2023/5/29
+     */
+    BigDecimal getRecordBalance() throws Exception;
 }

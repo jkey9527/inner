@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 /**
  * 明细
  *
@@ -112,6 +114,23 @@ public class RecordController {
         try {
             PageInfo<RecordBean> pageInfo = recordService.getRecordList4Page(record);
             return Result.success("操作成功！", pageInfo);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 查询余额
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/5/29
+     */
+    @RequestMapping("/getRecordBalance")
+    public String getRecordBalance() {
+        try {
+            BigDecimal balance = recordService.getRecordBalance();
+            return Result.success("操作成功！", balance);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

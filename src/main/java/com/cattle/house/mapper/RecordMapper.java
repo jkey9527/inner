@@ -3,6 +3,7 @@ package com.cattle.house.mapper;
 import com.cattle.house.bean.RecordBean;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -63,4 +64,12 @@ public interface RecordMapper {
      * @date 2023/5/27
      */
     List<RecordBean> getRecordList(RecordBean record);
+
+    /**
+     * 查询余额
+     * @return java.math.BigDecimal
+     * @author niujie
+     * @date 2023/5/29
+     */
+    BigDecimal getRecordBalance();
 }

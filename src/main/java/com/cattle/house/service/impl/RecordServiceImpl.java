@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -78,10 +79,20 @@ public class RecordServiceImpl implements RecordService {
     public PageInfo<RecordBean> getRecordList4Page(RecordBean record) throws Exception {
         try {
             PageBean pageBean = record.getPageBean();
-            PageUtil.startPage(pageBean, "");
+            PageUtil.startPage(pageBean, "r_date desc");
             List<RecordBean> recordList = recordMapper.getRecordList(record);
             PageInfo<RecordBean> pageInfo = new PageInfo<>(recordList);
             return pageInfo;
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public BigDecimal getRecordBalance() throws Exception {
+        try {
+            return recordMapper.getRecordBalance();
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());

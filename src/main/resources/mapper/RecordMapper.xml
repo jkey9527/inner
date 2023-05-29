@@ -41,4 +41,9 @@
         from house_record
     </select>
 
+    <!--查询余额-->
+    <select id="getRecordBalance" resultType="java.math.BigDecimal">
+        select sum(if(r_type=1,-r_money,r_money)) from house_record
+    </select>
+
 </mapper>
