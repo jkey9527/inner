@@ -139,7 +139,6 @@ public class UserServiceImpl implements UserService {
             if (StrUtil.isBlank(userId)) {
                 throw new Exception("参数{userId}异常");
             }
-            checkUserInfo(userBean);
             UserBean user = getUserByUserId(userId);
             if (ObjectUtil.isNull(user)) {
                 throw new Exception("修改失败，未查询到用户信息");
