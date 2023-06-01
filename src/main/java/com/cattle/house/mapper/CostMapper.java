@@ -51,4 +51,13 @@ public interface CostMapper {
      * @date 2023/4/24
      */
     List<CostBean> getCostListByContractNo(String contractNo);
+
+    /**
+     * 删除费用信息
+     * @param contractNo contractNo
+     * @return void
+     * @author niujie
+     * @date 2023/6/1
+     */
+    void deleteCostByContractNo(String contractNo);
 }

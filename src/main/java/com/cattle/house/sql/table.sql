@@ -18,7 +18,10 @@ create table house_contract
     con_e_price       decimal(10, 2) default 0.00 null comment '电单价',
     con_g_price       decimal(10, 2) default 0.00 null comment '气单价',
     con_state         int(2)                      null comment '合同状态',
-    con_notes         text                        null comment '备注'
+    con_notes         text                        null comment '备注',
+    con_w_start       decimal(10, 2) default 0.00 null comment '水期初',
+    con_e_start       decimal(10, 2) default 0.00 null comment '电期初',
+    con_g_start       decimal(10, 2) default 0.00 null comment '气期初'
 )
     comment '合同表';
 
@@ -72,3 +75,13 @@ create table house_record
     r_msg         varchar(255) null,
     r_create_time datetime null
 ) comment '明细表';
+
+create table house_system  (
+  sys_id int(11) not null comment '主键',
+  sys_code varchar(255)  comment '参数编码',
+  sys_value varchar(255)  comment '参数值',
+  sys_label varchar(255)  comment '描述',
+  primary key (sys_id)
+) comment '明细表';
+
+insert into house_system values (1, 'submit_cost', 'false', '允许二次提交费用');

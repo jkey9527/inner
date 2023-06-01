@@ -75,10 +75,10 @@
     </select>
 
     <!--修改用户状态-->
-    <select id="updateUserState" parameterType="com.cattle.house.bean.UserBean">
+    <update id="updateUserState" parameterType="com.cattle.house.bean.UserBean">
         update house_user
         set user_state = #{user_state}
         where user_id = #{user_id}
-    </select>
+    </update>
 
 </mapper>

@@ -86,4 +86,13 @@ public interface ContractService {
      * @date 2023/5/27
      */
     void updateContractState(ContractBean contractBean) throws Exception;
+
+    /**
+     * 通过合同编号查询合同信息
+     * @param contractNo contractNo
+     * @return com.cattle.house.bean.ContractBean
+     * @author niujie
+     * @date 2023/6/1
+     */
+    ContractBean getContractByContractNo(String contractNo) throws Exception;
 }

@@ -80,4 +80,22 @@ public interface CostService {
      * @date 2023/5/1
      */
     PageInfo<CostBean> getCostListByContractNo4Page(CostBean cost) throws Exception;
+
+    /**
+     * 保存期初费用信息
+     * @param cost cost
+     * @return void
+     * @author niujie
+     * @date 2023/6/1
+     */
+    void saveStartCost(CostBean cost) throws Exception;
+
+    /**
+     * 删除费用信息
+     * @param contractNo contractNo
+     * @return void
+     * @author niujie
+     * @date 2023/6/1
+     */
+    void deleteCostByContractNo(String contractNo) throws Exception;
 }

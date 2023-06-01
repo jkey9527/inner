@@ -81,7 +81,6 @@ public class UserServiceImpl implements UserService {
                     throw new Exception("用户已存在！");
                 }
             }
-            checkUserInfo(userBean);
             ContractBean contractBean = new ContractBean();
             contractBean.setCon_no(userBean.getUser_contract_no());
             List<ContractBean> contractBeanList = contractMapper.getContractList(contractBean);
@@ -89,6 +88,10 @@ public class UserServiceImpl implements UserService {
                 throw new Exception("合同不存在！");
             }
             userBean.setUser_id(UuIdUtil.getUUID());
+            String userIdCard = userBean.getUser_id_card();
+            int size = userIdCard.length();
+            String pass = userIdCard.substring(size - 6);
+            userBean.setUser_password(pass);
             userMapper.saveUser(userBean);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -154,7 +157,9 @@ public class UserServiceImpl implements UserService {
             ContractBean contractBean = new ContractBean();
             contractBean.setCon_no(userBean.getUser_contract_no());
             List<ContractBean> contractBeanList = contractMapper.getContractList(contractBean);
-            if(CollUtil.isEmpty(contractBeanList)){
+            Integer userState = userBean.getUser_state();
+            boolean use = ObjectUtil.equals(userState, UserStateEnum.USE.getValue());
+            if(CollUtil.isEmpty(contractBeanList)&&use){
                 throw new Exception("合同不存在！");
             }
             userMapper.updateUser(userBean);

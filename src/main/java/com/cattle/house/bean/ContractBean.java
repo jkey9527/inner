@@ -110,6 +110,22 @@ public class ContractBean implements Serializable {
     private String con_notes;
 
     /**
+     * 水期初
+     */
+    private BigDecimal con_w_start;
+
+    /**
+     * 电期初
+     */
+    private BigDecimal con_e_start;
+
+    /**
+     * 气期初
+     */
+    private BigDecimal con_g_start;
+
+
+    /**
      * 分页对象
      */
     private PageBean pageBean;

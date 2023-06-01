@@ -39,4 +39,8 @@
                 #{cost_g_number})
     </insert>
 
+    <delete id="deleteCostByContractNo" parameterType="java.lang.String">
+        delete from house_cost where cost_contract_no = #{cost_contract_no}
+    </delete>
+
 </mapper>

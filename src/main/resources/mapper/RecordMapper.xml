@@ -17,7 +17,7 @@
     </insert>
 
     <!--修改明细-->
-    <delete id="updateRecord" parameterType="com.cattle.house.bean.RecordBean">
+    <update id="updateRecord" parameterType="com.cattle.house.bean.RecordBean">
         update house_record
         set r_type        = #{r_type},
             r_money       = #{r_money},
@@ -25,14 +25,14 @@
             r_msg         = #{r_msg},
             r_create_time = #{r_create_time}
         where r_id = #{r_id}
-    </delete>
+    </update>
 
     <!--删除明细-->
-    <select id="deleteRecord" parameterType="com.cattle.house.bean.RecordBean">
+    <delete id="deleteRecord" parameterType="com.cattle.house.bean.RecordBean">
         delete
         house_record where r_id =
         #{r_id}
-    </select>
+    </delete>
 
     <!--查询用户列表-->
     <select id="getRecordList" parameterType="com.cattle.house.bean.RecordBean"

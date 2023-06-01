@@ -4,14 +4,15 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.cattle.house.bean.ContractBean;
-import com.cattle.house.bean.CostBean;
-import com.cattle.house.bean.PageBean;
-import com.cattle.house.bean.UserBean;
+import com.cattle.house.bean.*;
+import com.cattle.house.enums.RecordTypeEnum;
+import com.cattle.house.enums.SystemEnum;
 import com.cattle.house.mapper.ContractMapper;
 import com.cattle.house.mapper.CostMapper;
-import com.cattle.house.mapper.UserMapper;
 import com.cattle.house.service.CostService;
+import com.cattle.house.service.RecordService;
+import com.cattle.house.service.SystemService;
+import com.cattle.house.service.UserService;
 import com.cattle.house.util.PageUtil;
 import com.cattle.house.util.UuIdUtil;
 import com.github.pagehelper.PageInfo;
@@ -36,11 +37,15 @@ import java.util.List;
 public class CostServiceImpl implements CostService {
     private static final Logger LOGGER = Logger.getLogger(CostServiceImpl.class);
 
-    private UserMapper userMapper;
+    private UserService userService;
 
     private ContractMapper contractMapper;
 
     private CostMapper costMapper;
+
+    private RecordService recordService;
+
+    private SystemService systemService;
 
 
     @Override
@@ -63,14 +68,19 @@ public class CostServiceImpl implements CostService {
             List<CostBean> costBeanList = costMapper.getCostListByContractNo(cost.getCost_contract_no());
             int times = 1;
             if (CollUtil.isNotEmpty(costBeanList)) {
+                SystemBean system = systemService.getSystemByCode(SystemEnum.SUBMIT_COST.getCode());
+                Boolean enableSubmitCost = Convert.toBool(system.getSys_value(), false);
                 CostBean costBean = costBeanList.stream().max(Comparator.comparing(CostBean::getCost_times)).get();
-                if (DateUtil.isSameMonth(curDate, costBean.getCost_date())) {
+                if (DateUtil.isSameMonth(curDate, costBean.getCost_date()) && !enableSubmitCost) {
                     throw new Exception("本月已完成一次费用提交，请勿重复提交！");
                 }
                 times = costBean.getCost_times() + 1;
             }
             cost.setCost_times(times);
+            // 构建收入信息
+            RecordBean record = buildCollRecord(cost);
             costMapper.saveCost(cost);
+            recordService.saveRecord(record);
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
@@ -112,7 +122,7 @@ public class CostServiceImpl implements CostService {
     @Override
     public CostBean initCost(UserBean user) throws Exception {
         try {
-            UserBean userBean = userMapper.getUserByUserId(user.getUser_id());
+            UserBean userBean = userService.getUserByUserId(user.getUser_id());
             if (ObjectUtil.isNull(userBean)) {
                 throw new Exception("未查询到用户信息");
             }
@@ -151,6 +161,28 @@ public class CostServiceImpl implements CostService {
             List<CostBean> costList = costMapper.getCostList(cost);
             PageInfo<CostBean> pageInfo = new PageInfo<>(costList);
             return pageInfo;
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveStartCost(CostBean cost) throws Exception {
+        try {
+            costMapper.saveCost(cost);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteCostByContractNo(String contractNo) throws Exception {
+        try {
+            costMapper.deleteCostByContractNo(contractNo);
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e);
@@ -215,5 +247,24 @@ public class CostServiceImpl implements CostService {
         cost.setCost_g_money(contractBean.getCon_g_price().multiply(cost.getCost_g_number()));
         //计算合计金额
         cost.setCost_total_money(cost.getCost_w_money().add(cost.getCost_e_money()).add(cost.getCost_g_money()));
+    }
+
+    /**
+     * 构建收入费用信息
+     * @param cost cost
+     * @return com.cattle.house.bean.RecordBean
+     * @author niujie
+     * @date 2023/6/1
+     */
+    private RecordBean buildCollRecord(CostBean cost) throws Exception {
+        ContractBean contract =
+                contractMapper.getContractByNo(cost.getCost_contract_no());
+        Integer houseNo = contract.getCon_house_no();
+        RecordBean record = new RecordBean();
+        record.setR_type(RecordTypeEnum.COLL.getValue());
+        record.setR_money(cost.getCost_total_money());
+        record.setR_date(cost.getCost_date());
+        record.setR_msg(houseNo+"水电气（自缴）");
+        return record;
     }
 }
