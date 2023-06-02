@@ -49,10 +49,14 @@ public class HouseInterceptor implements HandlerInterceptor {
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }
         String token = request.getHeader("token");
+        LOGGER.info("======>token：" + token);
         String msg = tokenService.checkToken(token);
+        LOGGER.info("======>token-error-msg：" + msg);
         if (StrUtil.isBlank(msg)) {
             String userId = request.getHeader("userid");
+            LOGGER.info("======>userId：" + userId);
             boolean userLogin = redisUtil.hasKey(userId);
+            LOGGER.info("======>userLogin：" + userLogin);
             if (!userLogin) {
                 msg = "登录信息已过期，请重新登录！";
             }

@@ -11,6 +11,6 @@ public class RedisConstant {
     /**
      * 设置登录过期时间
      */
-    public final static long LOGIN_TIME_OUT = 1 * 60;
+    public final static long LOGIN_TIME_OUT = 5 * 60;
 
 }
