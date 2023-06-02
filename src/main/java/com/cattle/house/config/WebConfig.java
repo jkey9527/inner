@@ -26,6 +26,6 @@ public class WebConfig implements WebMvcConfigurer {
         // 对获取token和登录放行
         registry.addInterceptor(houseInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/cattle/house/token/getToken", "/cattle/house/user/login");
+                .excludePathPatterns("/cattle/house/token/getToken", "/cattle/house/user/login", "/cattle/house/user/loginOut");
     }
 }
