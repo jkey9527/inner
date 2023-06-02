@@ -80,7 +80,9 @@ public class CostServiceImpl implements CostService {
             // 构建收入信息
             RecordBean record = buildCollRecord(cost);
             costMapper.saveCost(cost);
-            recordService.saveRecord(record);
+            if(ObjectUtil.isNotNull(record)){
+                recordService.saveRecord(record);
+            }
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());
@@ -256,9 +258,13 @@ public class CostServiceImpl implements CostService {
      * @author niujie
      * @date 2023/6/1
      */
-    private RecordBean buildCollRecord(CostBean cost) throws Exception {
+    private RecordBean buildCollRecord(CostBean cost) {
         ContractBean contract =
                 contractMapper.getContractByNo(cost.getCost_contract_no());
+        if(ObjectUtil.isNull(contract)){
+            //管理员没有合同信息
+            return null;
+        }
         Integer houseNo = contract.getCon_house_no();
         RecordBean record = new RecordBean();
         record.setR_type(RecordTypeEnum.COLL.getValue());
