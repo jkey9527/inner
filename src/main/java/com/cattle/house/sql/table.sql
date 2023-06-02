@@ -85,3 +85,4 @@ create table house_system  (
 ) comment '明细表';
 
 insert into house_system values (1, 'submit_cost', 'false', '允许二次提交费用');
+insert into house_system values (2, 'show_user', 'false', '展示用户信息');
