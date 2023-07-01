@@ -70,7 +70,6 @@
     <select id="getUserOptions" resultType="com.cattle.house.bean.UserBean">
         select user_id, user_no, user_name
         from house_user
-        where user_type = 1
         order by user_no
     </select>
 

@@ -14,7 +14,7 @@ public class TokenConstant {
     /**
      * token过期时间
      */
-    public final static long TOKEN_TIME_OUT = 10 * 60;
+    public final static long TOKEN_TIME_OUT = 60 * 60;
 
     /**
      * 秘钥集合

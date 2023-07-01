@@ -253,17 +253,22 @@ public class CostServiceImpl implements CostService {
 
     /**
      * 构建收入费用信息
+     *
      * @param cost cost
      * @return com.cattle.house.bean.RecordBean
      * @author niujie
      * @date 2023/6/1
      */
-    private RecordBean buildCollRecord(CostBean cost) {
-        ContractBean contract =
-                contractMapper.getContractByNo(cost.getCost_contract_no());
-        if(ObjectUtil.isNull(contract)){
-            //管理员没有合同信息
+    private RecordBean buildCollRecord(CostBean cost) throws Exception {
+        String costContractNo = cost.getCost_contract_no();
+        if (costContractNo.startsWith("601@") || costContractNo.startsWith("602@") || costContractNo.startsWith("801@")) {
+            //管理员不进行收入登记
             return null;
+        }
+        ContractBean contract =
+                contractMapper.getContractByNo(costContractNo);
+        if (ObjectUtil.isNull(contract)) {
+            throw new Exception("合同信息查询失败！请联系管理员！");
         }
         Integer houseNo = contract.getCon_house_no();
         RecordBean record = new RecordBean();

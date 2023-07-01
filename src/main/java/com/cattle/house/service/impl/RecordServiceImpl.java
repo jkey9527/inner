@@ -79,7 +79,7 @@ public class RecordServiceImpl implements RecordService {
     public PageInfo<RecordBean> getRecordList4Page(RecordBean record) throws Exception {
         try {
             PageBean pageBean = record.getPageBean();
-            PageUtil.startPage(pageBean, "r_date desc");
+            PageUtil.startPage(pageBean, "r_create_time desc");
             List<RecordBean> recordList = recordMapper.getRecordList(record);
             PageInfo<RecordBean> pageInfo = new PageInfo<>(recordList);
             return pageInfo;
