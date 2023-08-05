@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cattle.inner.mapper.ProductMapper">
+
+    <!--保存货品信息-->
+    <insert id="saveProduct" parameterType="com.cattle.inner.bean.ProductBean">
+        insert into inner_product(pro_id, pro_no, pro_name, pro_type, pro_real_price, pro_price, pro_sell_price)
+        values (#{pro_id}, #{pro_no}, #{pro_name}, #{pro_type}, #{pro_real_price},
+                #{pro_price}, #{pro_sell_price})
+    </insert>
+
+    <!--保存货品明细信息-->
+    <insert id="saveProductDetail" parameterType="com.cattle.inner.bean.ProductDetailBean">
+        insert into inner_product_detail(pro_det_id, pro_main_id, pro_det_color, pro_det_size, pro_det_num)
+        values (#{pro_det_id}, #{pro_main_id}, #{pro_det_color}, #{pro_det_size}, #{pro_det_num})
+    </insert>
+
+    <!--入库-->
+    <update id="addProductDetail" parameterType="com.cattle.inner.bean.ProductDetailBean">
+        update set inner_product_detail
+        set pro_det_num = pro_det_num + #{pro_det_num}
+        where pro_det_id = #{pro_det_id}
+    </update>
+
+    <!--出库-->
+    <update id="subProductDetail" parameterType="com.cattle.inner.bean.ProductDetailBean">
+        update set inner_product_detail
+        set pro_det_num = pro_det_num - #{pro_det_num}
+        where pro_det_id = #{pro_det_id}
+    </update>
+
+    <!--查询货品信息-->
+    <select id="getProductList" parameterType="com.cattle.inner.bean.ProductBean" resultType="com.cattle.inner.bean.ProductBean">
+        select * from inner_product
+        <where>
+            <if test="pro_no != null">
+                and pro_no like concat('%',#{pro_no},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--查询货品信息-->
+    <select id="getProduct" parameterType="com.cattle.inner.bean.ProductBean" resultType="com.cattle.inner.bean.ProductBean">
+        select * from inner_product
+        <where>
+            <if test="pro_id != null">
+                and pro_id = #{pro_id}
+            </if>
+        </where>
+    </select>
+
+    <!--查询货品明细信息-->
+    <select id="getProductDetails" parameterType="java.lang.String" resultType="com.cattle.inner.bean.ProductDetailBean">
+        select * from inner_product_detail
+        <where>
+            <if test="pro_id != null">
+                and pro_main_id = #{pro_main_id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

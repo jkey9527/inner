@@ -1,10 +1,10 @@
 server:
-  port: 8088
+  port: 8090
 
 spring:
   datasource:
-    name: cattle_house
-    url: jdbc:mysql://127.0.0.1:3306/cattle_house
+    name: cattle_inner
+    url: jdbc:mysql://127.0.0.1:3306/cattle_inner
     username: root
     password: abc=1234
     #password: root123456
@@ -20,7 +20,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.cattle.house.bean
+  type-aliases-package: com.cattle.inner.bean
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

@@ -1,83 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cattle.house.mapper.UserMapper">
+<mapper namespace="com.cattle.inner.mapper.UserMapper">
 
     <!--用户登录-->
-    <select id="getUserBean" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
-        select user_id, user_name, user_no, user_phone, user_contract_no, user_type
-        from house_user
+    <select id="getUserBean" parameterType="com.cattle.inner.bean.UserBean" resultType="com.cattle.inner.bean.UserBean">
+        select user_id, user_name, user_no, user_phone
+        from inner_user
         where (user_no = #{user_no} or user_phone = #{user_phone})
           and user_password = #{user_password}
           and user_state = 1
     </select>
-
-    <!--保存用户-->
-    <insert id="saveUser" parameterType="com.cattle.house.bean.UserBean">
-        insert into house_user(user_id, user_no, user_name, user_phone, user_password, user_type, user_contract_no,
-                               user_state, user_id_card, user_car_no, user_notes, user_key_no)
-            value (#{user_id}, #{user_no}, #{user_name}, #{user_phone}, #{user_password}, #{user_type}, #{user_contract_no}, #{user_state},
-            #{user_id_card}, #{user_car_no}, #{user_notes}, #{user_key_no})
-    </insert>
-
-    <!--删除用户-->
-    <delete id="deleteUser" parameterType="com.cattle.house.bean.UserBean">
-        delete
-        from house_user
-        where user_id = #{user_id}
-          and user_state = 0
-    </delete>
-
-    <!--通过用户ID查询用户信息-->
-    <select id="getUserByUserId" parameterType="java.lang.String" resultType="com.cattle.house.bean.UserBean">
-        select user_id,
-               user_no,
-               user_name,
-               user_phone,
-               user_type,
-               user_contract_no,
-               user_state,
-               user_id_card,
-               user_car_no,
-               user_notes,
-               user_key_no
-        from house_user
-        where user_id = #{user_id}
-    </select>
-
-    <!--修改用户-->
-    <update id="updateUser" parameterType="com.cattle.house.bean.UserBean">
-        update house_user
-        set user_no          = #{user_no},
-            user_name        = #{user_name},
-            user_phone       = #{user_phone},
-            user_type        = #{user_type},
-            user_contract_no = #{user_contract_no},
-            user_state       = #{user_state},
-            user_id_card     = #{user_id_card},
-            user_car_no      = #{user_car_no},
-            user_notes       = #{user_notes},
-            user_key_no      = #{user_key_no}
-        where user_id = #{user_id}
-    </update>
-
-    <!--查询用户列表-->
-    <select id="getUserList" parameterType="com.cattle.house.bean.UserBean" resultType="com.cattle.house.bean.UserBean">
-        select *
-        from house_user
-    </select>
-
-    <!--查询用户列表-->
-    <select id="getUserOptions" resultType="com.cattle.house.bean.UserBean">
-        select user_id, user_no, user_name
-        from house_user
-        order by user_no
-    </select>
-
-    <!--修改用户状态-->
-    <update id="updateUserState" parameterType="com.cattle.house.bean.UserBean">
-        update house_user
-        set user_state = #{user_state}
-        where user_id = #{user_id}
-    </update>
 
 </mapper>

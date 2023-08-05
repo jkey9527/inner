@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cattle.house.mapper.SystemMapper">
+<mapper namespace="com.cattle.inner.mapper.SystemMapper">
 
-    <select id="getSystem" resultType="com.cattle.house.bean.SystemBean">
-        select * from house_system
+    <select id="getSystem" resultType="com.cattle.inner.bean.SystemBean">
+        select * from inner_system
     </select>
 
-    <select id="getSystemByCode" parameterType="java.lang.String" resultType="com.cattle.house.bean.SystemBean">
-        select * from house_system where sys_code = #{sys_code}
+    <select id="getSystemByCode" parameterType="java.lang.String" resultType="com.cattle.inner.bean.SystemBean">
+        select * from inner_system where sys_code = #{sys_code}
     </select>
 
-    <update id="saveSystem" parameterType="com.cattle.house.bean.SystemBean">
-        update house_system set sys_value = #{sys_value} where sys_code = #{sys_code}
+    <update id="saveSystem" parameterType="com.cattle.inner.bean.SystemBean">
+        update inner_system set sys_value = #{sys_value} where sys_code = #{sys_code}
     </update>
 
 </mapper>
