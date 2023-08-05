@@ -124,7 +124,6 @@ public class ContractBean implements Serializable {
      */
     private BigDecimal con_g_start;
 
-
     /**
      * 分页对象
      */
