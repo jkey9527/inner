@@ -57,4 +57,13 @@ public interface ProductService {
      * @date 2023/8/5
      */
     ProductBean getProduct(ProductBean product) throws Exception;
+
+    /**
+     * 库存
+     * @param product product
+     * @return java.util.List<com.cattle.inner.bean.ProductBean>
+     * @author niujie
+     * @date 2023/8/6
+     */
+    List<ProductBean> getProducts(ProductBean product) throws Exception;
 }

@@ -4,7 +4,11 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cattle.inner.bean.UserBean;
 import com.cattle.inner.constant.RedisConstant;
+import com.cattle.inner.enums.LogModelEnum;
+import com.cattle.inner.enums.LogTypeEnum;
+import com.cattle.inner.interceptor.UserContext;
 import com.cattle.inner.mapper.UserMapper;
+import com.cattle.inner.service.SystemService;
 import com.cattle.inner.service.UserService;
 import com.cattle.inner.util.RedisUtil;
 import lombok.AllArgsConstructor;
@@ -27,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
     private RedisUtil redisUtil;
 
+    private SystemService systemService;
+
     @Override
     public UserBean loginIn(UserBean userBean) throws Exception {
         String userNo = userBean.getUser_no();
@@ -41,6 +47,8 @@ public class UserServiceImpl implements UserService {
         }
         //设置登录过期时间
         redisUtil.set(user.getUser_id(), user.getUser_name(), RedisConstant.LOGIN_TIME_OUT);
+        String userId = UserContext.getUserId();
+        systemService.saveOptLog(LogModelEnum.user.getValue(), LogTypeEnum.login_in.getValue());
         return user;
     }
 
@@ -54,6 +62,7 @@ public class UserServiceImpl implements UserService {
         if (hasKey) {
             redisUtil.deleteKey(user.getUser_id());
         }
-
+        String userId = UserContext.getUserId();
+        systemService.saveOptLog(LogModelEnum.user.getValue(), LogTypeEnum.login_out.getValue());
     }
 }

@@ -1,5 +1,6 @@
 package com.cattle.inner.controller;
 
+import com.cattle.inner.bean.OptLog;
 import com.cattle.inner.bean.SystemBean;
 import com.cattle.inner.response.Result;
 import com.cattle.inner.service.SystemService;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "cattle/house/system", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/inner/system", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class SystemController {
     private static final Logger LOGGER = Logger.getLogger(SystemController.class);
@@ -53,6 +54,24 @@ public class SystemController {
         try {
             systemService.saveSystem(systemList);
             return Result.success("操作成功！");
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 交易交易日志
+     * @param log log
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/8/6
+     */
+    @RequestMapping("/getLogs")
+    public String getLogs(@RequestBody OptLog log) {
+        try {
+            List<OptLog> logs = systemService.getLogs(log);
+            return Result.success("操作成功！", logs);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

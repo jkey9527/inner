@@ -4,12 +4,9 @@ import cn.hutool.core.util.ObjectUtil;
 import com.cattle.inner.bean.UserBean;
 import com.cattle.inner.response.Result;
 import com.cattle.inner.service.UserService;
-import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 用户
@@ -19,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "cattle/house/user", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/inner/user", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class UserController {
     private static final Logger LOGGER = Logger.getLogger(UserController.class);

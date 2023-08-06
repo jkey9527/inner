@@ -1,5 +1,6 @@
 package com.cattle.inner.mapper;
 
+import com.cattle.inner.bean.OptLog;
 import com.cattle.inner.bean.SystemBean;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -31,11 +32,20 @@ public interface SystemMapper {
     void saveSystem(SystemBean systemBean);
 
     /**
-     * 根据系统参数查询
-     * @param code code
-     * @return com.cattle.inner.bean.SystemBean
+     * 保存系统日志
+     * @param optLog optLog
+     * @return void
      * @author niujie
-     * @date 2023/6/1
+     * @date 2023/8/6
      */
-    SystemBean getSystemByCode(String code);
+    void saveOptLog(OptLog optLog);
+
+    /**
+     * 查询日志
+     * @param log log
+     * @return java.util.List<com.cattle.inner.bean.OptLog>
+     * @author niujie
+     * @date 2023/8/6
+     */
+    List<OptLog> getLogs(OptLog log);
 }

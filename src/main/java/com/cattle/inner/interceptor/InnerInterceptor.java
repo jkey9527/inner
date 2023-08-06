@@ -5,6 +5,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cattle.inner.bean.ProfileBean;
+import com.cattle.inner.bean.UserBean;
 import com.cattle.inner.response.Result;
 import com.cattle.inner.service.TokenService;
 import com.cattle.inner.util.RedisUtil;
@@ -42,7 +43,7 @@ public class InnerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        LOGGER.info(DateUtil.format(new Date(), DatePattern.NORM_DATETIME_PATTERN) + "--访问地址：" + request.getRequestURL());
+        LOGGER.info(DateUtil.format(new Date(), DatePattern.NORM_DATETIME_PATTERN) + "--system url：" + request.getRequestURL());
         boolean development = Convert.toBool(profileBean.isDevelopment(), false);
         LOGGER.info("development is " + development);
         if (development) {
@@ -60,6 +61,9 @@ public class InnerInterceptor implements HandlerInterceptor {
             if (!userLogin) {
                 msg = "登录信息已过期，请重新登录！";
             }
+            UserBean userBean = new UserBean();
+            userBean.setUser_id(userId);
+            UserContext.set(userBean);
         }
         if (StrUtil.isNotBlank(msg)) {
             LOGGER.info(DateUtil.format(new Date(), DatePattern.NORM_DATETIME_PATTERN) + "--错误信息：" + msg);

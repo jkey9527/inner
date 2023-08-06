@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "cattle/house/token", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/inner/token", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class TokenController {
     private static final Logger LOGGER = Logger.getLogger(TokenController.class);

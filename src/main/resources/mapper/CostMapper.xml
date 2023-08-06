@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cattle.inner.mapper.CostMapper">
+
+    <!--费用-->
+    <insert id="saveCost" parameterType="com.cattle.inner.bean.CostBean">
+        insert into inner_cost(cost_id, cost_pro, cost_user_id, cost_date, cost_type, cost_money)
+        values (#{cost_id}, #{cost_pro}, #{cost_user_id}, #{cost_date}, #{cost_type}, #{cost_money})
+    </insert>
+
+    <!--保存结算-->
+    <insert id="saveSettlement" parameterType="com.cattle.inner.bean.SettlementBean">
+        insert into inner_settlement(s_id, s_month, s_coll_money, s_pay_money, s_money)
+        values (#{s_id}, #{s_month}, #{s_coll_money}, #{s_pay_money}, #{s_money})
+    </insert>
+
+    <select id="getCostList" parameterType="com.cattle.inner.bean.CostBean" resultType="com.cattle.inner.bean.CostBean">
+        select * from inner_cost
+        <where>
+            <if test="cost_pro != null">
+                and cost_pro like concat('%',#{cost_pro},'%')
+            </if>
+            <if test="cost_type != null">
+                and cost_type = #{cost_type}
+            </if>
+            <if test="cost_user_id != null">
+                and cost_user_id = #{cost_user_id}
+            </if>
+            <if test="startDay != null">
+                and date_format(cost_date,'%Y-%m-%d') >= date_format(#{startDay},'%Y-%m-%d')
+            </if>
+            <if test="endDay != null">
+                and date_format(#{endDay},'%Y-%m-%d') >= date_format(cost_date,'%Y-%m-%d')
+            </if>
+            <if test="startMoney != null">
+                and cost_money >= #{startMoney}
+            </if>
+            <if test="endMoney != null">
+                and #{endMoney} >= cost_money
+            </if>
+        </where>
+    </select>
+
+    <select id="getSettlementList" parameterType="com.cattle.inner.bean.SettlementBean"
+            resultType="com.cattle.inner.bean.SettlementBean">
+        select * from inner_settlement
+        <where>
+            <if test="s_month != null">
+                and s_month = #{s_month}
+            </if>
+        </where>
+    </select>
+</mapper>

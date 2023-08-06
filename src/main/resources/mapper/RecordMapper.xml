@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cattle.inner.mapper.RecordMapper">
+
+    <!--销售-->
+    <insert id="saveRecord" parameterType="com.cattle.inner.bean.RecordBean">
+        insert into inner_record(r_id, r_pro_id, r_user_id, r_date, r_week, r_month, r_year,
+        r_type, r_sell_price, r_sell_num)
+        values (#{r_id}, #{r_pro_id}, #{r_user_id}, #{r_date}, #{r_week}, #{r_month}, #{r_year},
+                #{r_type}, #{r_sell_price}, #{r_sell_num})
+    </insert>
+
+    <!-- 查询销售信息 -->
+    <select id="getRecord" parameterType="com.cattle.inner.bean.RecordParam" resultType="com.cattle.inner.bean.RecordBean">
+        select * from inner_record
+        <where>
+            <if test="year != null">
+                and r_year = #{year}
+            </if>
+            <if test="month != null">
+                and r_month = #{month}
+            </if>
+            <if test="week != null">
+                and r_week = #{week}
+            </if>
+            <if test="day != null">
+                and date_format(r_date,'%Y-%m-%d') = date_format(#{day},'%Y-%m-%d')
+            </if>
+            <if test="startDay != null">
+                and date_format(r_date,'%Y-%m-%d') >= date_format(#{startDay},'%Y-%m-%d')
+            </if>
+            <if test="endDay != null">
+                and date_format(#{endDay},'%Y-%m-%d') >= date_format(r_date,'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+</mapper>

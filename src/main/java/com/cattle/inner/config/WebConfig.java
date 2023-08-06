@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean
-    public InnerInterceptor houseInterceptor() {
+    public InnerInterceptor innerInterceptor() {
         return new InnerInterceptor();
     }
 
@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 拦截所有请求
         // 对获取token和登录放行
-        registry.addInterceptor(houseInterceptor())
+        registry.addInterceptor(innerInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/cattle/inner/token/getToken", "/cattle/inner/user/login", "/cattle/inner/user/loginOut");
     }

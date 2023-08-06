@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "cattle/inner/cost", method = RequestMethod.POST)
+@RequestMapping(value = "cattle/inner/product", method = RequestMethod.POST)
 @CrossOrigin(origins = "*")
 public class ProductController {
     private static final Logger LOGGER = Logger.getLogger(ProductController.class);
@@ -109,6 +109,24 @@ public class ProductController {
         try {
             ProductBean productBean = productService.getProduct(product);
             return Result.success("操作成功！", productBean);
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 库存
+     * @param product product
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/8/6
+     */
+    @RequestMapping("/getProducts")
+    public String getProducts(@RequestBody ProductBean product) {
+        try {
+            List<ProductBean> productBeans = productService.getProducts(product);
+            return Result.success("操作成功！", productBeans);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

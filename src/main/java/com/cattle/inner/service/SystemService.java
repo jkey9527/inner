@@ -1,5 +1,6 @@
 package com.cattle.inner.service;
 
+import com.cattle.inner.bean.OptLog;
 import com.cattle.inner.bean.SystemBean;
 
 import java.util.List;
@@ -30,11 +31,44 @@ public interface SystemService {
     void saveSystem(List<SystemBean> systemList) throws Exception;
 
     /**
-     * 根据系统参数编码查询
-     * @param code code
-     * @return com.cattle.inner.bean.SystemBean
+     * 保存日志
+     * @param model 模块
+     * @param type 类型
+     * @param info 详情
+     * @param memo 备注
+     * @return void
      * @author niujie
-     * @date 2023/6/1
+     * @date 2023/8/6
      */
-    SystemBean getSystemByCode(String code) throws Exception;
+    void saveOptLog(String model, String type, String info, String memo);
+
+    /**
+     * 保存日志
+     * @param model model
+     * @param type type
+     * @param info info
+     * @return void
+     * @author niujie
+     * @date 2023/8/6
+     */
+    void saveOptLog(String model, String type, String info);
+
+    /**
+     * 保存日志
+     * @param model model
+     * @param type type
+     * @return void
+     * @author niujie
+     * @date 2023/8/6
+     */
+    void saveOptLog(String model, String type);
+
+    /**
+     * 查询日志
+     * @param log log
+     * @return java.util.List<com.cattle.inner.bean.OptLog>
+     * @author niujie
+     * @date 2023/8/6
+     */
+    List<OptLog> getLogs(OptLog log) throws Exception;
 }

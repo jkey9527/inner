@@ -8,7 +8,6 @@
         from inner_user
         where (user_no = #{user_no} or user_phone = #{user_phone})
           and user_password = #{user_password}
-          and user_state = 1
     </select>
 
 </mapper>

@@ -17,14 +17,14 @@
 
     <!--入库-->
     <update id="addProductDetail" parameterType="com.cattle.inner.bean.ProductDetailBean">
-        update set inner_product_detail
+        update inner_product_detail
         set pro_det_num = pro_det_num + #{pro_det_num}
         where pro_det_id = #{pro_det_id}
     </update>
 
     <!--出库-->
     <update id="subProductDetail" parameterType="com.cattle.inner.bean.ProductDetailBean">
-        update set inner_product_detail
+        update inner_product_detail
         set pro_det_num = pro_det_num - #{pro_det_num}
         where pro_det_id = #{pro_det_id}
     </update>
@@ -33,8 +33,14 @@
     <select id="getProductList" parameterType="com.cattle.inner.bean.ProductBean" resultType="com.cattle.inner.bean.ProductBean">
         select * from inner_product
         <where>
+            <if test="pro_id != null">
+                and pro_id = #{pro_id}
+            </if>
             <if test="pro_no != null">
                 and pro_no like concat('%',#{pro_no},'%')
+            </if>
+            <if test="pro_type != null">
+                and pro_type = #{pro_type}
             </if>
         </where>
     </select>
@@ -49,6 +55,19 @@
         </where>
     </select>
 
+    <!--查询货品信息-->
+    <select id="getProductListByProIds" parameterType="java.lang.String" resultType="com.cattle.inner.bean.ProductBean">
+        select * from inner_product
+        <where>
+            <if test="proIds != null">
+                and pro_id in 
+                <foreach item="item" index="index" collection="proIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
     <!--查询货品明细信息-->
     <select id="getProductDetails" parameterType="java.lang.String" resultType="com.cattle.inner.bean.ProductDetailBean">
         select * from inner_product_detail
@@ -57,6 +76,11 @@
                 and pro_main_id = #{pro_main_id}
             </if>
         </where>
+    </select>
+
+    <!--查询货品明细信息-->
+    <select id="getAllProductDetail" resultType="com.cattle.inner.bean.ProductDetailBean">
+        select * from inner_product_detail
     </select>
 
 </mapper>

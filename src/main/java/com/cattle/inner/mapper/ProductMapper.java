@@ -77,4 +77,21 @@ public interface ProductMapper {
      * @date 2023/8/5
      */
     List<ProductDetailBean> getProductDetails(String proId);
+
+    /**
+     * 根据货品ID集合查询货品信息
+     * @param proIds proIds
+     * @return java.util.List<com.cattle.inner.bean.ProductBean>
+     * @author niujie
+     * @date 2023/8/6
+     */
+    List<ProductBean> getProductListByProIds(List<String> proIds);
+
+    /**
+     * 查询货品明细信息
+     * @return java.util.List<com.cattle.inner.bean.ProductDetailBean>
+     * @author niujie
+     * @date 2023/8/6
+     */
+    List<ProductDetailBean> getAllProductDetail();
 }
