@@ -35,6 +35,11 @@ public class ProductBean {
     private String pro_type;
 
     /**
+     * 货品类型
+     */
+    private String pro_type_name;
+
+    /**
      * 真实进价
      */
     private BigDecimal pro_real_price;

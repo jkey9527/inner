@@ -43,5 +43,10 @@ public class RecordParam {
      */
     private Date endDay;
 
+    /**
+     * 查询类型
+     */
+    private String dateType;
+
 
 }

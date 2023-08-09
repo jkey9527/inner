@@ -1,15 +1,20 @@
 package com.cattle.inner.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.cattle.inner.bean.*;
-import com.cattle.inner.enums.LogModelEnum;
-import com.cattle.inner.enums.LogTypeEnum;
+import com.cattle.inner.bean.PageBean;
+import com.cattle.inner.bean.ProductBean;
+import com.cattle.inner.bean.ProductDetailBean;
+import com.cattle.inner.enums.*;
 import com.cattle.inner.mapper.ProductMapper;
-import com.cattle.inner.service.*;
+import com.cattle.inner.service.ProductService;
+import com.cattle.inner.service.SystemService;
+import com.cattle.inner.util.PageUtil;
 import com.cattle.inner.util.UuIdUtil;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -46,8 +51,9 @@ public class ProductServiceImpl implements ProductService {
             }
             String productId = UuIdUtil.getUUID();
             product.setPro_id(productId);
-            productMapper.saveProduct(product);
             List<ProductDetailBean> productDetailBeans = product.getProductDetailBeans();
+            checkProductDetail(productDetailBeans);
+            productMapper.saveProduct(product);
             if (CollUtil.isNotEmpty(productDetailBeans)) {
                 for (ProductDetailBean productDetailBean : productDetailBeans) {
                     productDetailBean.setPro_main_id(productId);
@@ -64,22 +70,56 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addProductDetail(List<ProductDetailBean> productDetails) throws Exception {
-        if (CollUtil.isEmpty(productDetails)) {
-            throw new Exception("入库失败，入库信息为空！");
+    public void updateProduct(ProductBean product) throws Exception {
+        if(ObjectUtil.isNull(product)){
+            throw new Exception("货品更新失败，未录入任何货品资料！");
         }
-        for (ProductDetailBean productDetail : productDetails) {
-            String proDetId = productDetail.getPro_det_id();
-            if(StrUtil.isBlank(proDetId)){
-                // 如果货品明细主键为空，则表示之前未入库，则新增入库
+        if(StrUtil.isBlank(product.getPro_no())){
+            throw new Exception("货号不能为空！");
+        }
+        try {
+            ProductBean existsProduct = productMapper.getProductByProNo(product.getPro_no());
+            if (ObjectUtil.isNotNull(existsProduct)) {
+                if (!ObjectUtil.equals(product.getPro_id(), existsProduct.getPro_id())) {
+                    throw new Exception("货品更新失败，货号已存在！");
+                }
+            }
+            String proId = product.getPro_id();
+            List<ProductDetailBean> productDetails = product.getProductDetailBeans();
+            checkProductDetail(productDetails);
+            productMapper.deleteProductDetailByMainId(proId);
+            for (ProductDetailBean productDetail : productDetails) {
+                productDetail.setPro_main_id(proId);
                 productDetail.setPro_det_id(UuIdUtil.getUUID());
                 productMapper.saveProductDetail(productDetail);
-            }else {
-                // 库存数量增加
-                productMapper.addProductDetail(productDetail);
             }
+            productMapper.updateProduct(product);
+            systemService.saveOptLog(LogModelEnum.product.getValue(), LogTypeEnum.update.getValue(), JSONUtil.toJsonStr(product));
+        }catch (Exception e){
+            LOGGER.error("更新货品异常", e);
+            throw new Exception(e);
         }
-        systemService.saveOptLog(LogModelEnum.product.getValue(), LogTypeEnum.update.getValue(), JSONUtil.toJsonStr(productDetails));
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteProduct(ProductBean product) throws Exception {
+        if(ObjectUtil.isNull(product)){
+            throw new Exception("货品删除失败，未录入任何货品资料！");
+        }
+        try {
+            ProductBean existsProduct = productMapper.getProduct(product);
+            if (ObjectUtil.isNull(existsProduct)) {
+                throw new Exception("货品删除失败，货品不存在！");
+            }
+            String proId = product.getPro_id();
+            productMapper.deleteProductDetailByMainId(proId);
+            productMapper.deleteProduct(product);
+            systemService.saveOptLog(LogModelEnum.product.getValue(), LogTypeEnum.delete.getValue(), JSONUtil.toJsonStr(product));
+        }catch (Exception e){
+            LOGGER.error("删除货品异常", e);
+            throw new Exception(e);
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -124,8 +164,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductBean> getProducts(ProductBean product) throws Exception {
+    public PageInfo<ProductBean> getProducts(ProductBean product) throws Exception {
         try {
+            PageBean pageBean = product.getPageBean();
+            PageUtil.startPage(pageBean, "");
             List<ProductBean> productList = productMapper.getProductList(product);
             List<ProductDetailBean> productDetailBeanList = productMapper.getAllProductDetail();
             Map<String, List<ProductDetailBean>> detailMap =
@@ -136,12 +178,39 @@ public class ProductServiceImpl implements ProductService {
                     continue;
                 }
                 List<ProductDetailBean> productDetailBeans = detailMap.get(proId);
+                for (ProductDetailBean productDetailBean : productDetailBeans) {
+                    productDetailBean.setPro_det_color_name(ColorTypeEnum.getNameByValue(productDetailBean.getPro_det_color()));
+                    productDetailBean.setPro_det_size_name(SizeTypeEnum.getNameByValue(productDetailBean.getPro_det_size()));
+                }
                 productBean.setProductDetailBeans(productDetailBeans);
+                productBean.setPro_type_name(ProductTypeEnum.getNameByValue(productBean.getPro_type()));
             }
-            return productList;
+            PageInfo<ProductBean> pageInfo = new PageInfo<>(productList);
+            return pageInfo;
         }catch (Exception e){
             LOGGER.error(e);
             throw new Exception(e);
+        }
+    }
+
+    /**
+     * 检查明细数据是否重复
+     * @param productDetails productDetails
+     * @return void
+     * @author niujie
+     * @date 2023/8/9
+     */
+    private void checkProductDetail(List<ProductDetailBean> productDetails) throws Exception {
+
+        if(CollUtil.isEmpty(productDetails)){
+            return;
+        }
+        int count = productDetails.stream()
+                .map(v -> Convert.toStr(v.getPro_det_size(), "")
+                        + Convert.toStr(v.getPro_det_color(), ""))
+                .distinct().collect(Collectors.toList()).size();
+        if(productDetails.size() != count){
+            throw new Exception("明细中存在重复的颜色和尺寸项！");
         }
     }
 }

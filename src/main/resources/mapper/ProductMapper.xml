@@ -46,6 +46,32 @@
     </select>
 
     <!--查询货品信息-->
+    <select id="getProductByProNo" parameterType="java.lang.String" resultType="com.cattle.inner.bean.ProductBean">
+        select * from inner_product where pro_no = #{pro_no}
+    </select>
+
+    <!--通过货品ID删除货品明细信息-->
+    <delete id="deleteProductDetailByMainId" parameterType="java.lang.String">
+        delete from inner_product_detail where pro_main_id = #{pro_main_id}
+    </delete>
+
+    <!-- 更新货品信息 -->
+    <update id="updateProduct" parameterType="com.cattle.inner.bean.ProductBean">
+        update inner_product
+        set pro_no = #{pro_no},
+            pro_name = #{pro_name},
+            pro_type = #{pro_type},
+            pro_real_price = #{pro_real_price},
+            pro_sell_price = #{pro_sell_price}
+        where pro_id = #{pro_id}
+    </update>
+
+    <!-- 删除货品信息 -->
+    <delete id="deleteProduct" parameterType="com.cattle.inner.bean.ProductBean">
+        delete from  inner_product where pro_id = #{pro_id}
+    </delete>
+
+    <!--查询货品信息-->
     <select id="getProduct" parameterType="com.cattle.inner.bean.ProductBean" resultType="com.cattle.inner.bean.ProductBean">
         select * from inner_product
         <where>

@@ -1,7 +1,9 @@
 package com.cattle.inner.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.cattle.inner.bean.*;
 import com.cattle.inner.enums.LogModelEnum;
@@ -49,6 +51,9 @@ public class RecordServiceImpl implements RecordService {
             }
             record.setR_id(UuIdUtil.getUUID());
             int count = productDetailBeans.stream().mapToInt(ProductDetailBean::getPro_det_num).sum();
+            if(count < 1){
+                throw new Exception("至少一项销售数量必须大于0！");
+            }
             record.setR_sell_num(count);
             Date date = new Date();
             int week = DateUtil.weekOfMonth(date);
@@ -73,6 +78,7 @@ public class RecordServiceImpl implements RecordService {
     public RecordResult getRecord(RecordParam recordParam) throws Exception {
         try {
             RecordResult recordResult = new RecordResult();
+            buildRecord(recordParam);
             List<RecordBean> recordBeanList = recordMapper.getRecord(recordParam);
             if(CollUtil.isEmpty(recordBeanList)){
                 return recordResult;
@@ -84,7 +90,7 @@ public class RecordServiceImpl implements RecordService {
             for (Map.Entry<String, List<RecordBean>> entry : typeGroup.entrySet()) {
                 List<RecordBean> recordBeans = entry.getValue();
                 BigDecimal totalMoney = recordBeans.stream().map(RecordBean::getR_sell_price).reduce(BigDecimal.ZERO, BigDecimal::add);
-                moneyMap.put(entry.getKey(),totalMoney);
+                moneyMap.put("money" + entry.getKey(),totalMoney);
             }
             BigDecimal totalMoney = recordBeanList.stream().map(RecordBean::getR_sell_price).reduce(BigDecimal.ZERO, BigDecimal::add);
             moneyMap.put("totalMoney",totalMoney);
@@ -102,7 +108,7 @@ public class RecordServiceImpl implements RecordService {
             for (Map.Entry<String, List<RecordBean>> entry : proTypeGroup.entrySet()) {
                 List<RecordBean> recordBeans = entry.getValue();
                 int count = recordBeans.stream().mapToInt(RecordBean::getR_sell_num).sum();
-                countMap.put(entry.getKey(),count);
+                countMap.put("count" + entry.getKey(),count);
             }
             int totalCount = recordBeanList.stream().mapToInt(RecordBean::getR_sell_num).sum();
             countMap.put("totalCount",totalCount);
@@ -112,6 +118,27 @@ public class RecordServiceImpl implements RecordService {
         }catch (Exception e){
             LOGGER.error("操作异常",e);
             throw new Exception(e.getMessage());
+        }
+    }
+
+    /**
+     * 构建查询时间
+     * @param recordParam recordParam
+     * @return void
+     * @author niujie
+     * @date 2023/8/9
+     */
+    private void buildRecord(RecordParam recordParam) {
+        String dateType = recordParam.getDateType();
+        Date date = new Date();
+        if(ObjectUtil.equals(dateType,"1")){
+            recordParam.setDay(date);
+        }else if(ObjectUtil.equals(dateType,"2")){
+            recordParam.setWeek(Convert.toStr(DateUtil.weekOfMonth(date)));
+        }else if(ObjectUtil.equals(dateType,"3")){
+            recordParam.setMonth(Convert.toStr(DateUtil.month(date)));
+        }else if(ObjectUtil.equals(dateType,"4")){
+            recordParam.setYear(Convert.toStr(DateUtil.year(date)));
         }
     }
 }

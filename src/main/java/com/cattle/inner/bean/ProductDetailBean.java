@@ -27,9 +27,19 @@ public class ProductDetailBean {
     private String pro_det_color;
 
     /**
+     * 货品明细颜色
+     */
+    private String pro_det_color_name;
+
+    /**
      * 货品明细尺码
      */
     private String pro_det_size;
+
+    /**
+     * 货品明细尺码
+     */
+    private String pro_det_size_name;
 
     /**
      * 货品明细库存

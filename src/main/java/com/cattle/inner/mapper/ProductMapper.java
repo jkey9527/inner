@@ -94,4 +94,40 @@ public interface ProductMapper {
      * @date 2023/8/6
      */
     List<ProductDetailBean> getAllProductDetail();
+
+    /**
+     * 根据货号查询货品信息
+     * @param pro_no pro_no
+     * @return com.cattle.inner.bean.ProductBean
+     * @author niujie
+     * @date 2023/8/9
+     */
+    ProductBean getProductByProNo(String pro_no);
+
+    /**
+     * 根据货品ID删除明细
+     * @param proId proId
+     * @return void
+     * @author niujie
+     * @date 2023/8/9
+     */
+    void deleteProductDetailByMainId(String proId);
+
+    /**
+     * 更新货品信息
+     * @param product product
+     * @return void
+     * @author niujie
+     * @date 2023/8/9
+     */
+    void updateProduct(ProductBean product);
+
+    /**
+     * 删除货品
+     * @param product product
+     * @return void
+     * @author niujie
+     * @date 2023/8/9
+     */
+    void deleteProduct(ProductBean product);
 }

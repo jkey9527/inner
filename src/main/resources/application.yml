@@ -31,4 +31,4 @@ pagehelper:
 
 
 profile:
-  development: true
+  development: false

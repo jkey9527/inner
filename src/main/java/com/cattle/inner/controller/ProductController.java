@@ -4,6 +4,7 @@ import com.cattle.inner.bean.ProductBean;
 import com.cattle.inner.bean.ProductDetailBean;
 import com.cattle.inner.response.Result;
 import com.cattle.inner.service.ProductService;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ProductController {
     private ProductService productService;
 
     /**
-     * 新建货品
+     * 增加货品
      * @param product product
      * @return java.lang.String
      * @author niujie
@@ -44,16 +45,34 @@ public class ProductController {
     }
 
     /**
-     * 增加库存
-     * @param productDetails productDetails
+     * 更新货品
+     * @param product product
      * @return java.lang.String
      * @author niujie
      * @date 2023/8/5
      */
-    @RequestMapping("/addProductDetail")
-    public String addProductDetail(@RequestBody List<ProductDetailBean> productDetails) {
+    @RequestMapping("/updateProduct")
+    public String updateProduct(@RequestBody ProductBean product) {
         try {
-            productService.addProductDetail(productDetails);
+            productService.updateProduct(product);
+            return Result.success("操作成功！");
+        } catch (Exception e) {
+            LOGGER.error("操作异常！", e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 删除货品
+     * @param product product
+     * @return java.lang.String
+     * @author niujie
+     * @date 2023/8/5
+     */
+    @RequestMapping("/deleteProduct")
+    public String deleteProduct(@RequestBody ProductBean product) {
+        try {
+            productService.deleteProduct(product);
             return Result.success("操作成功！");
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
@@ -125,8 +144,8 @@ public class ProductController {
     @RequestMapping("/getProducts")
     public String getProducts(@RequestBody ProductBean product) {
         try {
-            List<ProductBean> productBeans = productService.getProducts(product);
-            return Result.success("操作成功！", productBeans);
+            PageInfo<ProductBean> pageInfo = productService.getProducts(product);
+            return Result.success("操作成功！", pageInfo);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);
             return Result.fail(e.getMessage());

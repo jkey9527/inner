@@ -21,7 +21,7 @@
                 and r_month = #{month}
             </if>
             <if test="week != null">
-                and r_week = #{week}
+                and r_week = #{week} + 1
             </if>
             <if test="day != null">
                 and date_format(r_date,'%Y-%m-%d') = date_format(#{day},'%Y-%m-%d')
