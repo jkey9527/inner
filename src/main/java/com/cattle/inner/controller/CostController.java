@@ -68,9 +68,9 @@ public class CostController {
      * @date 2023/8/6
      */
     @RequestMapping("/getSettlement")
-    public String getSettlement() {
+    public String getSettlement(@RequestBody SettlementBean settlementParam) {
         try {
-            SettlementBean settlement = costService.getSettlement();
+            SettlementBean settlement = costService.getSettlement(settlementParam);
             return Result.success("操作成功！",settlement);
         } catch (Exception e) {
             LOGGER.error("操作异常！", e);

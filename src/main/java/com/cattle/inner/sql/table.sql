@@ -64,7 +64,9 @@ create table inner_settlement
     s_month   varchar(36),
     s_coll_money  decimal(10, 2),
     s_pay_money  decimal(10, 2),
-    s_money  decimal(10, 2)
+    s_money  decimal(10, 2),
+    s_sub_money1  decimal(10, 2),
+    s_sub_money2  decimal(10, 2)
 ) comment '结算表';
 
 create table inner_log

@@ -37,7 +37,7 @@ public interface CostService {
      * @author niujie
      * @date 2023/8/6
      */
-    SettlementBean getSettlement() throws Exception;
+    SettlementBean getSettlement(SettlementBean settlement) throws Exception;
 
     /**
      * 保存结算

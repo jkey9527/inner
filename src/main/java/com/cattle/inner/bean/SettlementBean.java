@@ -38,4 +38,14 @@ public class SettlementBean {
      */
     private BigDecimal s_money;
 
+    /**
+     * 股东一
+     */
+    private BigDecimal s_sub_money1;
+
+    /**
+     * 股东二
+     */
+    private BigDecimal s_sub_money2;
+
 }

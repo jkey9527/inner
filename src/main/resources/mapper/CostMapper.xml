@@ -10,8 +10,8 @@
 
     <!--保存结算-->
     <insert id="saveSettlement" parameterType="com.cattle.inner.bean.SettlementBean">
-        insert into inner_settlement(s_id, s_month, s_coll_money, s_pay_money, s_money)
-        values (#{s_id}, #{s_month}, #{s_coll_money}, #{s_pay_money}, #{s_money})
+        insert into inner_settlement(s_id, s_month, s_coll_money, s_pay_money, s_money, s_sub_money1, s_sub_money2)
+        values (#{s_id}, #{s_month}, #{s_coll_money}, #{s_pay_money}, #{s_money}, #{s_sub_money1}, #{s_sub_money2})
     </insert>
 
     <select id="getCostList" parameterType="com.cattle.inner.bean.CostBean" resultType="com.cattle.inner.bean.CostBean">
