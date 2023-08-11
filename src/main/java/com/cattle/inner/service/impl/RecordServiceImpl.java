@@ -64,6 +64,14 @@ public class RecordServiceImpl implements RecordService {
             record.setR_month(month);
             record.setR_year(year);
             for (ProductDetailBean productDetailBean : productDetailBeans) {
+                ProductDetailBean productDetail =
+                        productMapper.getProductDetailById(productDetailBean.getPro_det_id());
+                if(ObjectUtil.isNull(productDetail)){
+                    throw new Exception("货品明细不存在！");
+                }
+                if (productDetailBean.getPro_det_num() > productDetail.getPro_det_num()) {
+                    throw new Exception("出库失败，库存不足！");
+                }
                 productMapper.subProductDetail(productDetailBean);
             }
             recordMapper.saveRecord(record);
@@ -100,6 +108,10 @@ public class RecordServiceImpl implements RecordService {
             Map<String, ProductBean> productMap = productBeans.stream().collect(Collectors.toMap(ProductBean::getPro_id, Function.identity()));
             for (RecordBean recordBean : recordBeanList) {
                 String proId = recordBean.getR_pro_id();
+                if(!productMap.containsKey(proId)){
+                    LOGGER.warn("不存在商品ID："+proId);
+                    continue;
+                }
                 ProductBean productBean = productMap.get(proId);
                 recordBean.setR_pro_type(productBean.getPro_type());
             }
@@ -131,14 +143,23 @@ public class RecordServiceImpl implements RecordService {
     private void buildRecord(RecordParam recordParam) {
         String dateType = recordParam.getDateType();
         Date date = new Date();
+        Date startDay = recordParam.getStartDay();
+        Date endDay = recordParam.getEndDay();
+        recordParam.setStartDay(null);
+        recordParam.setEndDay(null);
+        recordParam.setYear(Convert.toStr(DateUtil.year(date)));
         if(ObjectUtil.equals(dateType,"1")){
             recordParam.setDay(date);
         }else if(ObjectUtil.equals(dateType,"2")){
             recordParam.setWeek(Convert.toStr(DateUtil.weekOfMonth(date)));
         }else if(ObjectUtil.equals(dateType,"3")){
-            recordParam.setMonth(Convert.toStr(DateUtil.month(date)));
+            recordParam.setMonth(Convert.toStr(DateUtil.month(date)+1));
         }else if(ObjectUtil.equals(dateType,"4")){
             recordParam.setYear(Convert.toStr(DateUtil.year(date)));
+        }else{
+            recordParam.setYear(null);
+            recordParam.setStartDay(startDay);
+            recordParam.setEndDay(endDay);
         }
     }
 }

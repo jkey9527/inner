@@ -24,9 +24,19 @@ public class OptLog {
     private String log_model;
 
     /**
+     * 日志模块
+     */
+    private String log_model_name;
+
+    /**
      * 操作类型
      */
     private String log_type;
+
+    /**
+     * 操作类型
+     */
+    private String log_type_name;
 
     /**
      * 日志内容

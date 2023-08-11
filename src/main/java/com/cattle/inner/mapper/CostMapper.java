@@ -50,4 +50,31 @@ public interface CostMapper {
      * @date 2023/8/6
      */
     List<SettlementBean> getSettlementList(SettlementBean settlement);
+
+    /**
+     * 更新费用
+     * @param cost cost
+     * @return void
+     * @author niujie
+     * @date 2023/8/10
+     */
+    void updateCost(CostBean cost);
+
+    /**
+     * 删除费用
+     * @param cost cost
+     * @return void
+     * @author niujie
+     * @date 2023/8/10
+     */
+    void deleteCost(CostBean cost);
+
+    /**
+     * 查询费用信息
+     * @param cost cost
+     * @return com.cattle.inner.bean.CostBean
+     * @author niujie
+     * @date 2023/8/10
+     */
+    CostBean getCost(CostBean cost);
 }

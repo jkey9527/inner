@@ -16,6 +16,7 @@ create table inner_product
     pro_no         varchar(36),
     pro_name       varchar(36),
     pro_type       varchar(36),
+    pro_source       varchar(255),
     pro_real_price decimal(10, 2),
     pro_price      decimal(10, 2),
     pro_sell_price decimal(10, 2)
@@ -94,3 +95,10 @@ insert into inner_system
 values (1, 'submit_cost', 'false', '允许二次提交费用');
 insert into inner_system
 values (2, 'show_user', 'false', '展示用户信息');
+
+delete from inner_product;
+delete from inner_product_detail;
+delete from inner_record;
+delete from inner_cost;
+delete from inner_settlement;
+delete from inner_log;

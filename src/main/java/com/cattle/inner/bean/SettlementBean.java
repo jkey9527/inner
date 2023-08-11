@@ -3,6 +3,7 @@ package com.cattle.inner.bean;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * 结算
@@ -24,14 +25,29 @@ public class SettlementBean {
     private String s_month;
 
     /**
-     * 收入金额
+     * 退款金额
      */
     private BigDecimal s_coll_money;
+
+    /**
+     * 销售金额
+     */
+    private BigDecimal s_sell_money;
 
     /**
      * 支出金额
      */
     private BigDecimal s_pay_money;
+
+    /**
+     * 支出1
+     */
+    private BigDecimal s_pay_money1;
+
+    /**
+     * 支出2
+     */
+    private BigDecimal s_pay_money2;
 
     /**
      * 纯利润
@@ -47,5 +63,10 @@ public class SettlementBean {
      * 股东二
      */
     private BigDecimal s_sub_money2;
+
+    /**
+     * 结算统计
+     */
+    private Map sellTypeMap;
 
 }

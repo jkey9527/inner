@@ -8,8 +8,10 @@ import cn.hutool.json.JSONUtil;
 import com.cattle.inner.bean.PageBean;
 import com.cattle.inner.bean.ProductBean;
 import com.cattle.inner.bean.ProductDetailBean;
+import com.cattle.inner.bean.RecordBean;
 import com.cattle.inner.enums.*;
 import com.cattle.inner.mapper.ProductMapper;
+import com.cattle.inner.mapper.RecordMapper;
 import com.cattle.inner.service.ProductService;
 import com.cattle.inner.service.SystemService;
 import com.cattle.inner.util.PageUtil;
@@ -37,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductMapper productMapper;
     private SystemService systemService;
+    private RecordMapper recordMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -78,6 +81,7 @@ public class ProductServiceImpl implements ProductService {
             throw new Exception("货号不能为空！");
         }
         try {
+            checkProduct(product,"update");
             ProductBean existsProduct = productMapper.getProductByProNo(product.getPro_no());
             if (ObjectUtil.isNotNull(existsProduct)) {
                 if (!ObjectUtil.equals(product.getPro_id(), existsProduct.getPro_id())) {
@@ -108,6 +112,7 @@ public class ProductServiceImpl implements ProductService {
             throw new Exception("货品删除失败，未录入任何货品资料！");
         }
         try {
+            checkProduct(product,"delete");
             ProductBean existsProduct = productMapper.getProduct(product);
             if (ObjectUtil.isNull(existsProduct)) {
                 throw new Exception("货品删除失败，货品不存在！");
@@ -211,6 +216,30 @@ public class ProductServiceImpl implements ProductService {
                 .distinct().collect(Collectors.toList()).size();
         if(productDetails.size() != count){
             throw new Exception("明细中存在重复的颜色和尺寸项！");
+        }
+    }
+
+    /**
+     * 校验货品能否删除或者修改类型
+     * @param product product
+     * @return void
+     * @author niujie
+     * @date 2023/8/10
+     */
+    private void checkProduct(ProductBean product,String type) throws Exception {
+        List<RecordBean> recordBeans =
+                recordMapper.getRecordByProId(product.getPro_id());
+        if(CollUtil.isEmpty(recordBeans)){
+            return;
+        }
+
+        if(ObjectUtil.equals("delete",type)){
+            throw new Exception("该货品已发生交易，不允许删除！");
+        }else{
+            ProductBean exists = productMapper.getProductById(product.getPro_id());
+            if(!ObjectUtil.equals(product.getPro_type(),exists.getPro_type())){
+                throw new Exception("该货品已发生交易，不允许修改！");
+            }
         }
     }
 }

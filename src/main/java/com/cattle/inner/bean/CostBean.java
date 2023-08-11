@@ -64,4 +64,9 @@ public class CostBean {
      */
     private BigDecimal endMoney;
 
+    /**
+     * 年月
+     */
+    private String yearMonth;
+
 }

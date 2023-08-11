@@ -55,6 +55,11 @@ public class ProductBean {
     private BigDecimal pro_sell_price;
 
     /**
+     * 来源
+     */
+    private String pro_source;
+
+    /**
      * 货品明细
      */
     private List<ProductDetailBean> productDetailBeans;

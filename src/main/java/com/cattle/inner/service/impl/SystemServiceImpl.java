@@ -1,8 +1,11 @@
 package com.cattle.inner.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cattle.inner.bean.OptLog;
 import com.cattle.inner.bean.SystemBean;
+import com.cattle.inner.enums.LogModelEnum;
+import com.cattle.inner.enums.LogTypeEnum;
 import com.cattle.inner.interceptor.UserContext;
 import com.cattle.inner.mapper.SystemMapper;
 import com.cattle.inner.service.SystemService;
@@ -82,7 +85,14 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public List<OptLog> getLogs(OptLog log) throws Exception {
         try {
-            return systemMapper.getLogs(log);
+            List<OptLog> logs = systemMapper.getLogs(log);
+            if(CollUtil.isNotEmpty(logs)){
+                for (OptLog optLog : logs) {
+                    optLog.setLog_model_name(LogModelEnum.getNameByValue(optLog.getLog_model()));
+                    optLog.setLog_type_name(LogTypeEnum.getNameByValue(optLog.getLog_type()));
+                }
+            }
+            return logs;
         } catch (Exception e) {
             LOGGER.error(e);
             throw new Exception(e.getMessage());

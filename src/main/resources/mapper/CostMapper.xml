@@ -8,6 +8,26 @@
         values (#{cost_id}, #{cost_pro}, #{cost_user_id}, #{cost_date}, #{cost_type}, #{cost_money})
     </insert>
 
+    <!-- 修改费用 -->
+    <update id="updateCost" parameterType="com.cattle.inner.bean.CostBean">
+        update inner_cost set
+        cost_pro = #{cost_pro},
+        cost_user_id = #{cost_user_id},
+        cost_date = #{cost_date},
+        cost_type = #{cost_type},
+        cost_money = #{cost_money}
+        where cost_id = #{cost_id}
+    </update>
+
+    <!-- 删除费用 -->
+    <delete id="deleteCost" parameterType="com.cattle.inner.bean.CostBean">
+        delete from inner_cost where cost_id = #{cost_id}
+    </delete>
+
+    <select id="getCost" parameterType="com.cattle.inner.bean.CostBean" resultType="com.cattle.inner.bean.CostBean">
+        select * from inner_cost where cost_id = #{cost_id}
+    </select>
+
     <!--保存结算-->
     <insert id="saveSettlement" parameterType="com.cattle.inner.bean.SettlementBean">
         insert into inner_settlement(s_id, s_month, s_coll_money, s_pay_money, s_money, s_sub_money1, s_sub_money2)
@@ -39,6 +59,7 @@
                 and #{endMoney} >= cost_money
             </if>
         </where>
+        order by cost_date desc
     </select>
 
     <select id="getSettlementList" parameterType="com.cattle.inner.bean.SettlementBean"

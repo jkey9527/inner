@@ -21,7 +21,7 @@
                 and r_month = #{month}
             </if>
             <if test="week != null">
-                and r_week = #{week} + 1
+                and r_week = #{week}
             </if>
             <if test="day != null">
                 and date_format(r_date,'%Y-%m-%d') = date_format(#{day},'%Y-%m-%d')
@@ -33,6 +33,12 @@
                 and date_format(#{endDay},'%Y-%m-%d') >= date_format(r_date,'%Y-%m-%d')
             </if>
         </where>
+        order by r_date desc
+    </select>
+
+    <!--通过货品id查询销售记录-->
+    <select id="getRecordByProId" parameterType="java.lang.String" resultType="com.cattle.inner.bean.RecordBean">
+        select * from inner_record where r_pro_id = #{r_pro_id}
     </select>
 
 </mapper>

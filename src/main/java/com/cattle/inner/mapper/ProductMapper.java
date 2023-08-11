@@ -130,4 +130,22 @@ public interface ProductMapper {
      * @date 2023/8/9
      */
     void deleteProduct(ProductBean product);
+
+    /**
+     * 通过明细id查询明细信息
+     * @param pro_det_id pro_det_id
+     * @return com.cattle.inner.bean.ProductDetailBean
+     * @author niujie
+     * @date 2023/8/10
+     */
+    ProductDetailBean getProductDetailById(String pro_det_id);
+
+    /**
+     * 通过货品ID查询货品信息
+     * @param pro_id pro_id
+     * @return com.cattle.inner.bean.ProductBean
+     * @author niujie
+     * @date 2023/8/10
+     */
+    ProductBean getProductById(String pro_id);
 }

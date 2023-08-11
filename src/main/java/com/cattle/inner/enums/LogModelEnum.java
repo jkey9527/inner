@@ -1,5 +1,8 @@
 package com.cattle.inner.enums;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+
 /**
  * 日志类型
  *
@@ -35,5 +38,17 @@ public enum LogModelEnum {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static String getNameByValue(String value){
+        if(StrUtil.isBlank(value)){
+            return "";
+        }
+        for (LogModelEnum modelEnum : LogModelEnum.values()) {
+            if(ObjectUtil.equals(value,modelEnum.getValue())){
+                return modelEnum.getName();
+            }
+        }
+        return "";
     }
 }
